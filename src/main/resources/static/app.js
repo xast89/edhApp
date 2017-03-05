@@ -21,6 +21,9 @@ function connect() {
         stompClient.subscribe('/topic/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
+        stompClient.subscribe('/topic/card', function (card) {
+            showCard(JSON.parse(card.body).name);
+        });
     });
 }
 
@@ -40,11 +43,30 @@ function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
 }
 
+function getCard() {
+    stompClient.send("/app/card", {}, {});
+}
+
+function showCard(card) {
+    // $("#card").append("<tr><td>" + card + "</td></tr>");
+    $("#card2").append("<div>"+card+"</div>");
+}
+
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect(); });
-    $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendName(); });
+    $("#connect").click(function () {
+        connect();
+    });
+    $("#disconnect").click(function () {
+        disconnect();
+    });
+    $("#getCard").click(function () {
+        getCard();
+    });
+    $("#send").click(function () {
+        sendName();
+    });
+
 });
