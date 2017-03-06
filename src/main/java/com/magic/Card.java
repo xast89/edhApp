@@ -6,11 +6,11 @@ package com.magic;
 public class Card {
 
     private String name;
-    private String number;
+    private String id;
 
     public Card(String name, String number) {
         this.name = name;
-        this.number = number;
+        this.id = number;
     }
 
     public String getName() {
@@ -21,11 +21,11 @@ public class Card {
         this.name = name;
     }
 
-    public String getNumber() {
-        return number;
+    public String getId() {
+        return id;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -22,7 +22,10 @@ function connect() {
             showGreeting(JSON.parse(greeting.body).content);
         });
         stompClient.subscribe('/topic/card', function (card) {
-            showCard(JSON.parse(card.body).name);
+            showCard(JSON.parse(card.body).name, JSON.parse(card.body).id);
+        });
+        stompClient.subscribe('/topic/removeCard', function (id) {
+            deleteCard(id.body);
         });
     });
 }
@@ -47,8 +50,18 @@ function getCard() {
     stompClient.send("/app/card", {}, {});
 }
 
-function showCard(card) {
-    $("#card").prepend('<div class="col-md-6">'+card+'</div>');
+function showCard(name, id) {
+    $("#card").prepend('<div class="col-md-6" id="'+id+'">'+name+'</div>');
+    // $("#card").prepend('<div class="col-md-6" id="'+id+'">'+name+'  ' + id + '</div>');
+}
+
+function removeCard() {
+    // stompClient.send("/app/removeCard", {}, JSON.stringify({'id': $("#idCardForRemove").val()}));
+    stompClient.send("/app/removeCard", {}, $("#idCardForRemove").val());
+}
+
+function deleteCard(id) {
+    $('#'+id).remove();
 }
 
 $(function () {
@@ -64,6 +77,9 @@ $(function () {
     $("#getCard").click(function () {
         getCard();
     });
+    $("#removeCard").click(function () {
+        removeCard();
+    })
     $("#send").click(function () {
         sendName();
     });

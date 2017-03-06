@@ -30,7 +30,12 @@ public class CardController {
         }
 
         return null;
+    }
 
-
+    @MessageMapping("/removeCard")
+    @SendTo("/topic/removeCard")
+    public String removeCard(String id)
+    {
+        return id;
     }
 }
