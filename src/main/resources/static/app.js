@@ -48,8 +48,7 @@ function getCard() {
 }
 
 function showCard(card) {
-    // $("#card").append("<tr><td>" + card + "</td></tr>");
-    $("#card2").append("<div>"+card+"</div>");
+    $("#card").prepend('<div class="col-md-6">'+card+'</div>');
 }
 
 $(function () {

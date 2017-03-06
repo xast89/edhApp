@@ -20,12 +20,12 @@ public class CardController {
     @SendTo("/topic/card")
     public Card getCard()
     {
-        List<Card> cardList = cardRepository.getCardList();
+        List<Card> cardList = cardRepository.getDereviDeck();
 
         if(cardList.size() != 0)
         {
             Card card = cardList.get((int) (Math.random() * cardList.size()));
-            cardRepository.getCardList().remove(card);
+//            cardRepository.getDereviDeck().remove(card);
             return card;
         }
 

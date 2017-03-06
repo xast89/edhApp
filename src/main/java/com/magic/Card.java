@@ -6,9 +6,9 @@ package com.magic;
 public class Card {
 
     private String name;
-    private int number;
+    private String number;
 
-    public Card(String name, int number) {
+    public Card(String name, String number) {
         this.name = name;
         this.number = number;
     }
@@ -21,11 +21,11 @@ public class Card {
         this.name = name;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 }
