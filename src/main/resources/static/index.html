@@ -16,6 +16,11 @@
     Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
     <div class="row">
+        <div class="col-md-12">
+            Zajebista gra w Magica!
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-6">
             <form class="form-inline">
                 <div class="form-group">
@@ -43,7 +48,19 @@
                     <input type="text" id="idCardForRemove" class="form-control" placeholder="Card's id here...">
                 </div>
                 <button id="getCard" class="btn btn-default" type="submit">GetCard</button>
+                <button id="startGame" class="btn btn-default" type="submit">StartGame</button>
             </form>
+        </div>
+    </div>
+    <div class="row">
+        <div id="commandZone" class="col-md-3 card"></div>
+        <div id="deck" class="col-md-3 card"></div>
+        <div id="graveyard" class="col-md-3 card"></div>
+        <div id="exile" class="col-md-3 card"></div>
+    </div>
+    <div class="row">
+        <div id="myHand" class="col-md-12 card">
+
         </div>
     </div>
     <div class="row">
@@ -60,11 +77,6 @@
         </div>
     </div>
 
-    <div class="col-md-6"> CARDS </div>
-    <div class="row">
-        <div id="card" class="col-md-6"> </div>
-
-    </div>
 </div>
 </body>
 </html>

@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class CardRepository {
 
-    List<Card> dereviDeck = new ArrayList<>();
+    private List<Card> dereviDeck = new ArrayList<>();
 
     public CardRepository()
     {

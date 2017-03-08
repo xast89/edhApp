@@ -28,4 +28,10 @@ public class Card {
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        //create JSON format
+        return "{\"name\":\""+getName()+"\",\"id\":\""+getId()+"\"}";
+    }
 }

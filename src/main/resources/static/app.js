@@ -1,4 +1,5 @@
 var stompClient = null;
+var cardArray = null;
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -27,6 +28,10 @@ function connect() {
         stompClient.subscribe('/topic/removeCard', function (id) {
             deleteCard(id.body);
         });
+        stompClient.subscribe('/topic/startGame', function (cardList) {
+            cardArray = JSON.parse(cardList.body);
+            startGame_onPage();
+        });
     });
 }
 
@@ -51,7 +56,7 @@ function getCard() {
 }
 
 function showCard(name, id) {
-    $("#card").prepend('<div class="col-md-6" id="'+id+'">'+name+'</div>');
+    $("#myHand").append('<div class="col-md-2 card" id="'+id+'">'+name+'</div>');
     // $("#card").prepend('<div class="col-md-6" id="'+id+'">'+name+'  ' + id + '</div>');
 }
 
@@ -62,6 +67,22 @@ function removeCard() {
 
 function deleteCard(id) {
     $('#'+id).remove();
+}
+
+function startGame() {
+    stompClient.send("/app/startGame", {}, {});
+}
+
+function startGame_onPage() {
+
+    $("#commandZone").append( cardArray[0].name );
+    delete cardArray[0];
+
+    var step;
+    for (step = 1; step < 8; step++) {
+        $("#myHand").append('<div class="col-md-2 card" id="'+cardArray[step].id+'">'+cardArray[step].name+'</div>');
+        delete cardArray[0];
+    }
 }
 
 $(function () {
@@ -79,6 +100,9 @@ $(function () {
     });
     $("#removeCard").click(function () {
         removeCard();
+    });
+    $("#startGame").click(function () {
+        startGame();
     })
     $("#send").click(function () {
         sendName();

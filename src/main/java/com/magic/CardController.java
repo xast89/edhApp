@@ -5,6 +5,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,5 +38,17 @@ public class CardController {
     public String removeCard(String id)
     {
         return id;
+    }
+
+    @MessageMapping("/startGame")
+    @SendTo("/topic/startGame")
+    public List<Card> startGame()
+    {
+        List<Card> dereviDeck = cardRepository.getDereviDeck();
+        Card commander = dereviDeck.remove(0);
+        Collections.shuffle(dereviDeck);
+        dereviDeck.add(0, commander);
+
+        return dereviDeck;
     }
 }
