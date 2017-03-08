@@ -25,6 +25,9 @@ function connect() {
         stompClient.subscribe('/topic/card', function (card) {
             showCard(JSON.parse(card.body).name, JSON.parse(card.body).id);
         });
+        stompClient.subscribe('/user/queue/reply', function (message) {
+            personal_onPage(message.body);
+        });
         stompClient.subscribe('/topic/removeCard', function (id) {
             deleteCard(id.body);
         });
@@ -73,6 +76,14 @@ function startGame() {
     stompClient.send("/app/startGame", {}, {});
 }
 
+function personal() {
+    stompClient.send("/app/personal", {}, {});
+}
+
+function personal_onPage(message) {
+    $("#myHand").append('<div class="col-md-2 card" >'+message+'</div>');
+}
+
 function startGame_onPage() {
 
     $("#commandZone").append( cardArray[0].name );
@@ -103,7 +114,10 @@ $(function () {
     });
     $("#startGame").click(function () {
         startGame();
-    })
+    });
+    $("#personal").click(function () {
+        personal();
+    });
     $("#send").click(function () {
         sendName();
     });

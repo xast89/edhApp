@@ -3,6 +3,7 @@ package com.magic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
 import java.util.Collections;
@@ -16,6 +17,12 @@ public class CardController {
 
     @Autowired
     private CardRepository cardRepository;
+
+    @Autowired
+    public SimpMessageSendingOperations messagingTemplate;
+
+//    @Autowired
+//    public SimpMessageSendingOperations messagingTemplate;
 
     @MessageMapping("/card")
     @SendTo("/topic/card")
