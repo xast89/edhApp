@@ -13,8 +13,7 @@ public class CardRepository {
 
     private List<Card> dereviDeck = new ArrayList<>();
 
-    public CardRepository()
-    {
+    public CardRepository() {
         createDereviDeck();
 
     }
@@ -24,6 +23,7 @@ public class CardRepository {
     }
 
     private void createDereviDeck() {
+        //TODO: dodac x. y
         dereviDeck.add(createCard("Derevi, Empyrial Tactician", "186"));
         dereviDeck.add(createCard("Forest", "151"));
         dereviDeck.add(createCard("Island", "137"));
@@ -127,8 +127,7 @@ public class CardRepository {
 
     }
 
-    private Card createCard(String name, String number)
-    {
+    private Card createCard(String name, String number) {
         return new Card(name, number);
     }
 }

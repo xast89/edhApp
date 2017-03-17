@@ -31,7 +31,7 @@ function connect() {
         stompClient.subscribe('/topic/removeCard', function (id) {
             deleteCard(id.body);
         });
-        stompClient.subscribe('/topic/startGame', function (cardList) {
+        stompClient.subscribe('/user/queue/startGame', function (cardList) {
             cardArray = JSON.parse(cardList.body);
             startGame_onPage();
         });
@@ -58,18 +58,20 @@ function getCard() {
     stompClient.send("/app/card", {}, {});
 }
 
+
+// TODO: poczytac o tym
 function showCard(name, id) {
-    $("#myHand").append('<div class="col-md-2 card" id="'+id+'">'+name+'</div>');
-    // $("#card").prepend('<div class="col-md-6" id="'+id+'">'+name+'  ' + id + '</div>');
+    var card = $('<div class="col-md-2 card" id="' + id + '">' + name + '</div>');
+    card.appendTo("#myHand");
+    card.data('cardObj', {id: id, name: name});
 }
 
 function removeCard() {
-    // stompClient.send("/app/removeCard", {}, JSON.stringify({'id': $("#idCardForRemove").val()}));
     stompClient.send("/app/removeCard", {}, $("#idCardForRemove").val());
 }
 
 function deleteCard(id) {
-    $('#'+id).remove();
+    $('#' + id).remove();
 }
 
 function startGame() {
@@ -77,23 +79,27 @@ function startGame() {
 }
 
 function personal() {
-    stompClient.send("/app/personal", {}, {});
+    stompClient.send("/app/personal", {}, $("#idCardForRemove").val());
 }
 
 function personal_onPage(message) {
-    $("#myHand").append('<div class="col-md-2 card" >'+message+'</div>');
+    $("#myHand").append('<div class="col-md-2 card" >' + message + '</div>');
 }
 
 function startGame_onPage() {
 
-    $("#commandZone").append( cardArray[0].name );
+    // $("#commandZone").append( cardArray[0].name );
+    // $("#commandZone").append( cardArray[0].name );
+    // $('<img id="drag1" src="'+cardArray[0].id+'.jpg"/>').appendTo("#commandZone");
+    // http://magiccards.info/scans/en/c13/186.jpg
+    $('<img id="drag1" src="http://magiccards.info/scans/en/c13/' + cardArray[0].id + '.jpg"/>').appendTo("#commandZone");
     delete cardArray[0];
 
     var step;
-    for (step = 1; step < 8; step++) {
-        $("#myHand").append('<div class="col-md-2 card" id="'+cardArray[step].id+'">'+cardArray[step].name+'</div>');
-        delete cardArray[0];
-    }
+    // for (step = 1; step < 8; step++) {
+    //     $("#myHand").append('<div class="col-md-2 card" id="'+cardArray[step].id+'">'+cardArray[step].name+'</div>');
+    //     delete cardArray[0];
+    // }
 }
 
 $(function () {

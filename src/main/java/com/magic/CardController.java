@@ -3,7 +3,9 @@ package com.magic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.stereotype.Controller;
 
 import java.util.Collections;
@@ -21,17 +23,12 @@ public class CardController {
     @Autowired
     public SimpMessageSendingOperations messagingTemplate;
 
-//    @Autowired
-//    public SimpMessageSendingOperations messagingTemplate;
-
     @MessageMapping("/card")
     @SendTo("/topic/card")
-    public Card getCard()
-    {
+    public Card getCard() {
         List<Card> cardList = cardRepository.getDereviDeck();
 
-        if(cardList.size() != 0)
-        {
+        if (cardList.size() != 0) {
             Card card = cardList.get((int) (Math.random() * cardList.size()));
 //            cardRepository.getDereviDeck().remove(card);
             return card;
@@ -42,20 +39,22 @@ public class CardController {
 
     @MessageMapping("/removeCard")
     @SendTo("/topic/removeCard")
-    public String removeCard(String id)
-    {
+    public String removeCard(String id) {
         return id;
     }
 
     @MessageMapping("/startGame")
-    @SendTo("/topic/startGame")
-    public List<Card> startGame()
-    {
+    public void startGame(SimpMessageHeaderAccessor headerAccessor) {
         List<Card> dereviDeck = cardRepository.getDereviDeck();
         Card commander = dereviDeck.remove(0);
         Collections.shuffle(dereviDeck);
         dereviDeck.add(0, commander);
 
-        return dereviDeck;
+        SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor
+                .create(SimpMessageType.MESSAGE);
+        ha.setSessionId(headerAccessor.getSessionId());
+        ha.setLeaveMutable(true);
+        messagingTemplate.convertAndSendToUser(headerAccessor.getSessionId(), "/queue/startGame", dereviDeck, ha.getMessageHeaders());
+
     }
 }
