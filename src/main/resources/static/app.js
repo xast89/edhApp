@@ -21,6 +21,10 @@ function connect() {
         stompClient.subscribe('/topic/removeCard', function (id) {
             deleteCard(id.body);
         });
+        stompClient.subscribe('/topic/shareCard', function (id) {
+            var card = JSON.parse(id.body)
+            shareCard(card);
+        });
         stompClient.subscribe('/user/queue/startGame', function (cardList) {
             cardArray = JSON.parse(cardList.body);
             startGame_onPage();
@@ -56,6 +60,10 @@ function deleteCard(id) {
     $('#' + id).remove();
 }
 
+function shareCard(card) {
+    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo('#battle_field');
+}
+
 function startGame() {
     stompClient.send("/app/startGame", {}, {});
 }
@@ -70,10 +78,6 @@ function personal_onPage(message) {
 
 function startGame_onPage() {
 
-    // $("#commandZone").append( cardArray[0].name );
-    // $("#commandZone").append( cardArray[0].name );
-    // $('<img id="drag1" src="'+cardArray[0].id+'.jpg"/>').appendTo("#commandZone");
-    // http://magiccards.info/scans/en/c13/186.jpg
     $('<img id="' + cardArray[0].id + '" src="' + cardArray[0].src + '" draggable="true" ondragstart="drag(event)"/>').appendTo("#commandZone");
     delete cardArray[0];
 
@@ -97,23 +101,10 @@ function drop(ev) {
     var left = ev.clientX + 'px';
     var top = ev.clientY + 'px';
 
-    $('#' + card_id).appendTo(ev.target).css({"position": "absolute", "left": left, "top": top});
+    // $('#' + card_id).appendTo(ev.target).css({"position": "absolute", "left": left, "top": top});
 
-    // var data = {
-    //     name: "\'" + $('#' + card_id).attr('name') + "\'",
-    //     id: "\'" + $('#' + card_id).attr('id') + "\'",
-    //     src: "\'" + $('#' + card_id).attr('src') + "\'"
-    //     // left: "\'" + $('#' + card_id).attr('id') + "\'",
-    // };
-
-    var data = {
-        // name: "\'" + $('#' + card_id).attr('name') + "\'",
-        id: "\'" + $('#' + card_id).attr('id') + "\'",
-        src: "\'" + $('#' + card_id).attr('src') + "\'"
-        // left: "\'" + $('#' + card_id).attr('id') + "\'",
-    };
-
-    stompClient.send("/app/shareCard", {}, JSON.stringify({'name':'Derevi','id':$('#' + card_id).attr('id'),'src':$('#' + card_id).attr('src')}));
+    // stompClient.send("/app/shareCard", {}, JSON.stringify({'name':'Derevi','id':$('#' + card_id).attr('id'),'src':$('#' + card_id).attr('src')}));
+    stompClient.send("/app/shareCard", {}, JSON.stringify({'id':$('#' + card_id).attr('id'),'src':$('#' + card_id).attr('src')}));
 
 }
 

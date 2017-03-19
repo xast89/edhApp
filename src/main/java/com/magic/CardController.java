@@ -61,9 +61,8 @@ public class CardController {
 
     @MessageMapping("/shareCard")
     @SendTo("/topic/shareCard")
-    public void shareCard(Card message)
+    public Card shareCard(Card message)
     {
-        Object message1 = message;
-
+        return message;
     }
 }
