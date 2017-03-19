@@ -9,10 +9,15 @@ public class Card {
     private String id;
     private String src;
 
-    public Card(String name, String number, String src) {
+    public Card(String name, String id, String src) {
         this.name = name;
-        this.id = number;
+        this.id = id;
         this.src = src;
+    }
+
+    public Card()
+    {
+
     }
 
     public String getName() {

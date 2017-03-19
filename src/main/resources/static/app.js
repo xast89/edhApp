@@ -99,16 +99,21 @@ function drop(ev) {
 
     $('#' + card_id).appendTo(ev.target).css({"position": "absolute", "left": left, "top": top});
 
-    var card = document.getElementById("card_id").src;
+    // var data = {
+    //     name: "\'" + $('#' + card_id).attr('name') + "\'",
+    //     id: "\'" + $('#' + card_id).attr('id') + "\'",
+    //     src: "\'" + $('#' + card_id).attr('src') + "\'"
+    //     // left: "\'" + $('#' + card_id).attr('id') + "\'",
+    // };
 
-    // var car = {type:"Fiat", model:"500", color:"white"};
     var data = {
-        src: "\'" + $('#' + card_id).attr('src') + "\'",
-        id: "\'" + $('#' + card_id).attr('id') + "\'"
+        // name: "\'" + $('#' + card_id).attr('name') + "\'",
+        id: "\'" + $('#' + card_id).attr('id') + "\'",
+        src: "\'" + $('#' + card_id).attr('src') + "\'"
         // left: "\'" + $('#' + card_id).attr('id') + "\'",
     };
 
-    stompClient.send("/app/shareCard", {}, data);
+    stompClient.send("/app/shareCard", {}, JSON.stringify({'name':'Derevi','id':$('#' + card_id).attr('id'),'src':$('#' + card_id).attr('src')}));
 
 }
 

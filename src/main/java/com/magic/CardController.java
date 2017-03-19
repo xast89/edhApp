@@ -1,6 +1,7 @@
 package com.magic;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -8,6 +9,7 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collections;
 import java.util.List;
@@ -59,9 +61,9 @@ public class CardController {
 
     @MessageMapping("/shareCard")
     @SendTo("/topic/shareCard")
-    public String shareCard(@Payload String message, SimpMessageHeaderAccessor headerAccessor)
+    public void shareCard(Card message)
     {
-        return message;
+        Object message1 = message;
 
     }
 }
