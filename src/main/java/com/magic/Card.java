@@ -7,10 +7,12 @@ public class Card {
 
     private String name;
     private String id;
+    private String src;
 
-    public Card(String name, String number) {
+    public Card(String name, String number, String src) {
         this.name = name;
         this.id = number;
+        this.src = src;
     }
 
     public String getName() {
@@ -29,9 +31,19 @@ public class Card {
         this.id = id;
     }
 
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
+    }
+
     @Override
     public String toString() {
         //create JSON format
-        return "{\"name\":\""+getName()+"\",\"id\":\""+getId()+"\"}";
+        return "{\"name\":\""+getName()+"\"," +
+                "\"id\":\""+getId()+"\"," +
+                "\"src\":\""+getSrc()+"\"}";
     }
 }

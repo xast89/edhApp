@@ -16,11 +16,6 @@
     Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
     <div class="row">
-        <div class="col-md-12">
-            Zajebista gra w Magica!
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-6">
             <form class="form-inline">
                 <div class="form-group">
@@ -29,15 +24,6 @@
                     <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
                     </button>
                 </div>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="name">What is your name?</label>
-                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
-                </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
             </form>
         </div>
         <div class="col-md-6">
@@ -54,30 +40,20 @@
         </div>
     </div>
     <div class="row">
-        <div id="commandZone" class="col-md-3 card"></div>
-        <div id="deck" class="col-md-3 card"></div>
-        <div id="graveyard" class="col-md-3 card"></div>
-        <div id="exile" class="col-md-3 card"></div>
+        <div id="commandZone" class="col-md-3 card well" ></div>
+        <div id="deck" class="col-md-3 card well"></div>
+        <div id="graveyard" class="col-md-3 card well"></div>
+        <div id="exile" class="col-md-3 card well"></div>
     </div>
-    <div class="row">
-        <div id="myHand" class="col-md-12 card">
 
-        </div>
-    </div>
+
+
     <div class="row">
-        <div class="col-md-12">
-            <table id="conversation" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Greetings</th>
-                </tr>
-                </thead>
-                <tbody id="greetings">
-                </tbody>
-            </table>
+        <div id="myHand" class="col-md-12 card well" >
         </div>
     </div>
 
 </div>
+<div id="battle_field" class="battle_field" ondrop="drop(event)" ondragover="allowDrop(event)">Panel Content</div>
 </body>
 </html>
