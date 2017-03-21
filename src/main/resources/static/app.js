@@ -61,7 +61,14 @@ function deleteCard(id) {
 }
 
 function shareCard(card) {
-    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo('#battle_field');
+    if($('#battle_field #'+card.id).length)
+    {
+        $('#battle_field #'+card.id).remove();
+
+    }
+    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>')
+        .appendTo('#battle_field')
+        .css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
 }
 
 function startGame() {
@@ -93,19 +100,34 @@ function allowDrop(ev) {
 
 function drag(ev) {
     ev.dataTransfer.setData("card", ev.target.id);
+    // ev.dataTransfer.setData("div",ev.target.parentNode.id);
+    ev.dataTransfer.setData("div",ev.target.parentNode.id);
 }
 
 function drop(ev) {
     ev.preventDefault();
     var card_id = ev.dataTransfer.getData("card");
+    var card_div = ev.dataTransfer.getData("div");
     var left = ev.clientX + 'px';
     var top = ev.clientY + 'px';
 
-    // $('#' + card_id).appendTo(ev.target).css({"position": "absolute", "left": left, "top": top});
 
-    // stompClient.send("/app/shareCard", {}, JSON.stringify({'name':'Derevi','id':$('#' + card_id).attr('id'),'src':$('#' + card_id).attr('src')}));
-    stompClient.send("/app/shareCard", {}, JSON.stringify({'id':$('#' + card_id).attr('id'),'src':$('#' + card_id).attr('src')}));
 
+    stompClient.send("/app/shareCard", {},
+        JSON.stringify(
+            {
+                'id':$('#' + card_id).attr('id'),
+                'src':$('#' + card_id).attr('src'),
+                'xPosition':left,
+                'yPosition':top}));
+
+    if(card_div == "myHand")
+    {
+        $('#myHand #'+card_id).remove();
+    }
+    else {
+        $("#battle_field img:last-child").remove()
+    }
 }
 
 $(function () {

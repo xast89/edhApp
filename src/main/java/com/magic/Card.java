@@ -8,6 +8,8 @@ public class Card {
     private String name;
     private String id;
     private String src;
+    private String xPosition;
+    private String yPosition;
 
     public Card(String name, String id, String src) {
         this.name = name;
@@ -42,6 +44,22 @@ public class Card {
 
     public void setSrc(String src) {
         this.src = src;
+    }
+
+    public String getxPosition() {
+        return xPosition;
+    }
+
+    public void setxPosition(String xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    public String getyPosition() {
+        return yPosition;
+    }
+
+    public void setyPosition(String yPosition) {
+        this.yPosition = yPosition;
     }
 
     @Override
