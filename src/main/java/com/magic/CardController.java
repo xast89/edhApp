@@ -50,7 +50,7 @@ public class CardController {
         List<Card> dereviDeck = cardRepository.getDereviDeck();
         Card commander = dereviDeck.remove(0);
         Collections.shuffle(dereviDeck);
-        dereviDeck.add(0, commander);
+        dereviDeck.add(16, commander);
 
         SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor
                 .create(SimpMessageType.MESSAGE);

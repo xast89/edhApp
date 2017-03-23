@@ -1,5 +1,6 @@
 var stompClient = null;
-var cardArray = null;
+var deckList = [];
+var battleFieldList = [];
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -26,7 +27,7 @@ function connect() {
             shareCard(card);
         });
         stompClient.subscribe('/user/queue/startGame', function (cardList) {
-            cardArray = JSON.parse(cardList.body);
+            deckList = JSON.parse(cardList.body);
             startGame_onPage();
         });
     });
@@ -61,13 +62,13 @@ function deleteCard(id) {
 }
 
 function shareCard(card) {
-    if($('#battle_field #'+card.id).length)
+    if($('#myBF #'+card.id).length)
     {
-        $('#battle_field #'+card.id).remove();
+        $('#myBF #'+card.id).remove();
 
     }
     $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>')
-        .appendTo('#battle_field')
+        .appendTo('#myBF')
         .css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
 }
 
@@ -85,12 +86,15 @@ function personal_onPage(message) {
 
 function startGame_onPage() {
 
-    $('<img id="' + cardArray[0].id + '" src="' + cardArray[0].src + '" draggable="true" ondragstart="drag(event)"/>').appendTo("#commandZone");
-    delete cardArray[0];
+    var commander = deckList.pop();
+    battleFieldList.push(commander);
+    $('<img id="' + commander.id + '" src="' + commander.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo("#commandZone");
 
     var step;
     for (step = 1; step < 8; step++) {
-        $('<img id="' + cardArray[step].id + '" src="' + cardArray[step].src + '" draggable="true" ondragstart="drag(event)"/>').appendTo("#myHand");
+        var card = deckList.pop();
+        battleFieldList.push(card);
+        $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo("#myHand");
     }
 }
 
@@ -100,7 +104,6 @@ function allowDrop(ev) {
 
 function drag(ev) {
     ev.dataTransfer.setData("card", ev.target.id);
-    // ev.dataTransfer.setData("div",ev.target.parentNode.id);
     ev.dataTransfer.setData("div",ev.target.parentNode.id);
 }
 
@@ -110,9 +113,7 @@ function drop(ev) {
     var card_div = ev.dataTransfer.getData("div");
     var left = ev.clientX + 'px';
     var top = ev.clientY + 'px';
-
-
-
+//TODO: offset ; -> zapisac odleglosc od gornegp lewego rogu
     stompClient.send("/app/shareCard", {},
         JSON.stringify(
             {
@@ -124,9 +125,6 @@ function drop(ev) {
     if(card_div == "myHand")
     {
         $('#myHand #'+card_id).remove();
-    }
-    else {
-        $("#battle_field img:last-child").remove()
     }
 }
 

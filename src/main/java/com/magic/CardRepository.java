@@ -25,21 +25,21 @@ public class CardRepository {
     private void createDereviDeck() {
         //TODO: dodac x. y
         dereviDeck.add(createCard("Derevi, Empyrial Tactician", "c13_186", "http://magiccards.info/scans/en/c13/186.jpg"));
-        dereviDeck.add(createCard("Forest", "151", "http://magiccards.info/scans/en/pca/151.jpg"));
-        dereviDeck.add(createCard("Island", "137", "http://magiccards.info/scans/en/pca/137.jpg"));
-        dereviDeck.add(createCard("Plains", "132", "http://magiccards.info/scans/en/pca/132.jpg"));
-        dereviDeck.add(createCard("Fool's Demise", "111", "http://magiccards.info/scans/en/c14/111.jpg"));
-        dereviDeck.add(createCard("Knight of New Alara", "70", "http://magiccards.info/scans/en/arb/70.jpg"));
-        dereviDeck.add(createCard("Civic Saber ", "227", "http://magiccards.info/scans/en/rtr/227.jpg"));
-        dereviDeck.add(createCard("Rancor", "76", "http://magiccards.info/scans/en/pca/76.jpg"));
-        dereviDeck.add(createCard("Sylvan Caryatid", "180", "http://magiccards.info/scans/en/ths/180.jpg"));
-//        dereviDeck.add(createCard("Mask of Avacyn", "229"));
-//        dereviDeck.add(createCard("Trailblazer's Boots", "208"));
-//        dereviDeck.add(createCard("Opportunity", "51"));
-//        dereviDeck.add(createCard("Jace's Ingenuity", "63"));
-//        dereviDeck.add(createCard("Brainstorm", "40"));
-//        dereviDeck.add(createCard("Sakura-Tribe Elder", "164"));
-//        dereviDeck.add(createCard("Simic Signet", "270"));
+        dereviDeck.add(createCard("Forest", "pca_151", "http://magiccards.info/scans/en/pca/151.jpg"));
+        dereviDeck.add(createCard("Island", "pca_137", "http://magiccards.info/scans/en/pca/137.jpg"));
+        dereviDeck.add(createCard("Plains", "pca_132", "http://magiccards.info/scans/en/pca/132.jpg"));
+        dereviDeck.add(createCard("Fool's Demise", "c14_111", "http://magiccards.info/scans/en/c14/111.jpg"));
+        dereviDeck.add(createCard("Knight of New Alara", "arb_70", "http://magiccards.info/scans/en/arb/70.jpg"));
+        dereviDeck.add(createCard("Civic Saber ", "rtr_227", "http://magiccards.info/scans/en/rtr/227.jpg"));
+        dereviDeck.add(createCard("Rancor", "pca_76", "http://magiccards.info/scans/en/pca/76.jpg"));
+        dereviDeck.add(createCard("Sylvan Caryatid", "ths_180", "http://magiccards.info/scans/en/ths/180.jpg"));
+        dereviDeck.add(createCard("Mask of Avacyn", "isd_229", "http://magiccards.info/scans/en/isd/229.jpg"));
+        dereviDeck.add(createCard("Trailblazer's Boots", "zen_208", "http://magiccards.info/scans/en/zen/208.jpg"));
+        dereviDeck.add(createCard("Opportunity", "c13_51", "http://magiccards.info/scans/en/c13/51.jpg"));
+        dereviDeck.add(createCard("Jace's Ingenuity", "m15_63", "http://magiccards.info/scans/en/m15/63.jpg"));
+        dereviDeck.add(createCard("Brainstorm", "ema_40", "http://magiccards.info/scans/en/ema/40.jpg"));
+        dereviDeck.add(createCard("Sakura-Tribe Elder", "164", "http://magiccards.info/scans/en/c16/164.jpg"));
+        dereviDeck.add(createCard("Simic Signet", "270", "http://magiccards.info/scans/en/c16/270.jpg"));
 //        dereviDeck.add(createCard("Azorius Chancery", "282"));
 //        dereviDeck.add(createCard("Silent Arbiter", "204"));
 //        dereviDeck.add(createCard("Thornwood Falls", "333"));
