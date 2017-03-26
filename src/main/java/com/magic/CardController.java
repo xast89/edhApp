@@ -39,12 +39,6 @@ public class CardController {
         return null;
     }
 
-    @MessageMapping("/removeCard")
-    @SendTo("/topic/removeCard")
-    public String removeCard(String id) {
-        return id;
-    }
-
     @MessageMapping("/startGame")
     public void startGame(SimpMessageHeaderAccessor headerAccessor) {
         List<Card> dereviDeck = cardRepository.getDereviDeck();

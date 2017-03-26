@@ -1,12 +1,13 @@
 var stompClient = null;
 var deckList = [];
-var commnadZone = [];
+var commnadZoneList = [];
 var handList = [];
 var battleFieldList = [];
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
+    setStartButton(false);
 }
 
 function connect() {
@@ -44,14 +45,10 @@ function disconnect() {
 }
 
 function drawCard() {
-    // stompClient.send("/app/card", {}, {});
     var card = deckList.pop();
     handList.push(card);
 
-    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo("#myHand");
-
-
-
+    drawCardOnDiv(card, "#myHand");
 }
 
 
@@ -60,14 +57,6 @@ function showCard(name, id) {
     var card = $('<div class="col-md-2 card" id="' + id + '">' + name + '</div>');
     card.appendTo("#myHand");
     card.data('cardObj', {id: id, name: name});
-}
-
-function removeCard() {
-    stompClient.send("/app/removeCard", {}, $("#idCardForRemove").val());
-}
-
-function deleteCard(id) {
-    $('#' + id).remove();
 }
 
 //zagranie z reki na bf (zmienic nazwe funckcji!)
@@ -82,29 +71,34 @@ function shareCard(card) {
         .css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
 }
 
-function startGame() {
-    stompClient.send("/app/startGame", {}, {});
+function setStartButton(value) {
+    $("#startGame").prop("disabled", value);
 }
-
-function personal() {
-    stompClient.send("/app/personal", {}, $("#idCardForRemove").val());
+function startGame() {
+    setStartButton(true);
+    stompClient.send("/app/startGame", {}, {});
 }
 
 function personal_onPage(message) {
     $("#myHand").append('<div class="col-md-2 card" >' + message + '</div>');
 }
 
+function drawCardOnDiv(card, div) {
+    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo(div);
+}
 function startGame_onPage() {
 
     var commander = deckList.pop();
-    commnadZone.push(commander);
-    $('<img id="' + commander.id + '" src="' + commander.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo("#commandZone");
+    commnadZoneList.push(commander);
+
+    drawCardOnDiv(commander, "#commandZone");
 
     var step;
     for (step = 1; step < 8; step++) {
         var card = deckList.pop();
         handList.push(card);
-        $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo("#myHand");
+
+        drawCardOnDiv(card, "#myHand")
     }
 }
 
@@ -115,22 +109,26 @@ function allowDrop(ev) {
 function drag(ev) {
     ev.dataTransfer.setData("card", ev.target.id);
     ev.dataTransfer.setData("div",ev.target.parentNode.id);
+    ev.dataTransfer.setData("offsetLeft", ev.clientX-ev.target.getBoundingClientRect().left);
+    ev.dataTransfer.setData("offsetTop", ev.clientY-ev.target.getBoundingClientRect().top);
+}
 
-    //offset
-    // var cardLeftOffset = document.getElementById(ev.target.id).offsetLeft;
-    // var cardTopOffset = document.getElementById(ev.target.id).offsetTop;
-    var cardOffset = ev.target.getBoundingClientRect();
+function getLeftOffset(ev) {
 
-    var cardLeftOffset = cardOffset.left;
-    var cardTopOffset = cardOffset.top;
+    var offsetLeft = Number(ev.dataTransfer.getData("offsetLeft"));
+    var left = ev.pageX;
+    var leftResult = (left-offsetLeft) + 'px';
 
-    var clientX = ev.clientX;
-    var clientY = ev.clientY;
+    return leftResult;
+}
 
-    var left = clientX-cardLeftOffset;
-    var top = clientY-cardTopOffset;
-    ev.dataTransfer.setData("offsetLeft", left);
-    ev.dataTransfer.setData("offsetTop", top);
+function getTopOffset(ev) {
+
+    var offsetTop = Number(ev.dataTransfer.getData("offsetTop"));
+    var top = ev.pageY;
+    var topResult =  (top - offsetTop) + 'px';
+
+    return topResult;
 }
 
 function drop(ev) {
@@ -138,28 +136,29 @@ function drop(ev) {
     var card_id = ev.dataTransfer.getData("card");
     var card_div = ev.dataTransfer.getData("div");
 
-    var offsetLeft = Number(ev.dataTransfer.getData("offsetLeft"));
-    var offsetTop = Number(ev.dataTransfer.getData("offsetTop"));
-
-    var left = ev.clientX;
-    var top = ev.clientY;
-
-    // var leftResult = offsetLeft-left + 'px';
-    var leftResult = (left-offsetLeft) + 'px';
-    // var topResult = offsetTop-top + 'px';
-    var topResult =  (top - offsetTop) + 'px';
-//TODO: offset ; -> zapisac odleglosc od gornegp lewego rogu
     stompClient.send("/app/shareCard", {},
         JSON.stringify(
             {
                 'id':$('#' + card_id).attr('id'),
                 'src':$('#' + card_id).attr('src'),
-                'xPosition':leftResult,
-                'yPosition':topResult}));
+                'xPosition':getLeftOffset(ev),
+                'yPosition':getTopOffset(ev)}));
 
     if(card_div == "myHand")
     {
         $('#myHand #'+card_id).remove();
+
+        var step;
+        for (step = 0; step < handList.length; step++) {
+            if(handList[step].id == card_id)
+            {
+                var card = handList.splice(step,1);;
+
+                battleFieldList.push(card);
+            }
+
+        }
+
     }
 }
 
@@ -173,17 +172,11 @@ $(function () {
     $("#disconnect").click(function () {
         disconnect();
     });
-    $("#drawCard").click(function () {
-        drawCard();
-    });
-    $("#removeCard").click(function () {
-        removeCard();
-    });
     $("#startGame").click(function () {
         startGame();
     });
-    $("#personal").click(function () {
-        personal();
+    $("#drawCard").click(function () {
+        drawCard();
     });
 
 });
