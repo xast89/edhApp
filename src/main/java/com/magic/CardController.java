@@ -48,15 +48,19 @@ public class CardController {
     @MessageMapping("/startGame")
     public void startGame(SimpMessageHeaderAccessor headerAccessor) {
         List<Card> dereviDeck = cardRepository.getDereviDeck();
-        Card commander = dereviDeck.remove(0);
+        Card commander = dereviDeck.remove(getCommanderCard(dereviDeck));
         Collections.shuffle(dereviDeck);
-        dereviDeck.add(16, commander);
+        dereviDeck.add(dereviDeck.size(), commander);
 
         SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor
                 .create(SimpMessageType.MESSAGE);
         ha.setSessionId(headerAccessor.getSessionId());
         ha.setLeaveMutable(true);
         messagingTemplate.convertAndSendToUser(headerAccessor.getSessionId(), "/queue/startGame", dereviDeck, ha.getMessageHeaders());
+    }
+
+    private int getCommanderCard(List<Card> dereviDeck) {
+        return dereviDeck.size()-1;
     }
 
     @MessageMapping("/shareCard")
