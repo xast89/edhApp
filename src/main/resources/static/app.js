@@ -22,9 +22,6 @@ function connect() {
         stompClient.subscribe('/user/queue/reply', function (message) {
             personal_onPage(message.body);
         });
-        stompClient.subscribe('/topic/removeCard', function (id) {
-            deleteCard(id.body);
-        });
         stompClient.subscribe('/topic/shareCard', function (id) {
             var card = JSON.parse(id.body)
             shareCard(card);
@@ -67,7 +64,7 @@ function shareCard(card) {
 
     }
     $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>')
-        .appendTo('#myBF')
+        .appendTo('#'+card.destination)
         .css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
 }
 
@@ -144,7 +141,8 @@ function drop(ev) {
                 'id':$('#' + card_id).attr('id'),
                 'src':$('#' + card_id).attr('src'),
                 'xPosition':getLeftOffset(ev),
-                'yPosition':getTopOffset(ev)}));
+                'yPosition':getTopOffset(ev),
+                'destination': ev.target.id}));
 
     if(card_div == "myHand")
     {
@@ -158,9 +156,7 @@ function drop(ev) {
 
                 battleFieldList.push(card);
             }
-
         }
-
     }
 }
 

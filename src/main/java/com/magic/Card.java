@@ -10,6 +10,7 @@ public class Card {
     private String src;
     private String xPosition;
     private String yPosition;
+    private String destination;
 
     public Card(String name, String id, String src) {
         this.name = name;
@@ -60,6 +61,14 @@ public class Card {
 
     public void setyPosition(String yPosition) {
         this.yPosition = yPosition;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
     @Override

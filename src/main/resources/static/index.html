@@ -38,8 +38,8 @@
     </div>
     <div class="row">
         <div id="commandZone" class="cardPlace"></div>
-        <div id="deck" class="cardPlace"><button onclick="showDeck()">Click me</button></div>
-        <div id="graveyard" class="cardPlace"></div>
+        <div id="deck" class="cardPlace" ondrop="drop(event)" ondragover="allowDrop(event)"><button onclick="showDeck()">Click me</button></div>
+        <div id="graveyard" class="cardPlace" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
         <div id="exile" class="cardPlace"></div>
     </div>
 
