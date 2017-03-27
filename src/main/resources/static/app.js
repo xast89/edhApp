@@ -91,7 +91,9 @@ function startGame_onPage() {
     var commander = deckList.pop();
     commnadZoneList.push(commander);
 
-    drawCardOnDiv(commander, "#commandZone");
+    $('<img id="' + commander.id + '" src="' + commander.src + '" draggable="true" ondragstart="drag(event)"/>')
+    .appendTo("#commandZone")
+    .css({"position": "absolute", "margin-left": "auto", "margin-right": "auto"});
 
     var step;
     for (step = 1; step < 8; step++) {
@@ -160,6 +162,10 @@ function drop(ev) {
         }
 
     }
+}
+
+function showDeck() {
+    alert(deckList[0]);
 }
 
 $(function () {
