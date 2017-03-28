@@ -3,6 +3,7 @@ var deckList = [];
 var commnadZoneList = [];
 var handList = [];
 var battleFieldList = [];
+var graveyardList = []
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -61,7 +62,6 @@ function shareCard(card) {
     if($('#myBF #'+card.id).length)
     {
         $('#myBF #'+card.id).remove();
-
     }
     $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>')
         .appendTo('#'+card.destination)
@@ -130,6 +130,43 @@ function getTopOffset(ev) {
     return topResult;
 }
 
+function removeCardFromDiv(card_div, card_id) {
+    if (card_div == "myHand") {
+        $('#myHand #' + card_id).remove();
+
+        var step;
+        for (step = 0; step < handList.length; step++) {
+            if (handList[step].id == card_id) {
+                var card = handList.splice(step, 1);
+                battleFieldList.push(card);
+            }
+        }
+    }
+
+    else if (card_div == "commandZone") {
+        $('#commandZone #' + card_id).remove();
+
+        var step;
+        for (step = 0; step < commnadZoneList.length; step++) {
+            if (commnadZoneList[step].id == card_id) {
+                var card = commnadZoneList.splice(step, 1);
+                battleFieldList.push(card);
+            }
+        }
+    }
+
+    else if (card_div == "graveyard") {
+        $('#graveyard #' + card_id).remove();
+
+        var step;
+        for (step = 0; step < graveyardList.length; step++) {
+            if (graveyardList[step].id == card_id) {
+                var card = graveyardList.splice(step, 1);
+                battleFieldList.push(card);
+            }
+        }
+    }
+}
 function drop(ev) {
     ev.preventDefault();
     var card_id = ev.dataTransfer.getData("card");
@@ -144,20 +181,7 @@ function drop(ev) {
                 'yPosition':getTopOffset(ev),
                 'destination': ev.target.id}));
 
-    if(card_div == "myHand")
-    {
-        $('#myHand #'+card_id).remove();
-
-        var step;
-        for (step = 0; step < handList.length; step++) {
-            if(handList[step].id == card_id)
-            {
-                var card = handList.splice(step,1);;
-
-                battleFieldList.push(card);
-            }
-        }
-    }
+    removeCardFromDiv(card_div, card_id);
 }
 
 function showDeck() {
