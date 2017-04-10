@@ -10,8 +10,11 @@ import org.springframework.web.socket.config.annotation.AbstractWebSocketMessage
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
+import org.springframework.web.socket.sockjs.transport.handler.SockJsWebSocketHandler;
+import org.springframework.web.socket.sockjs.transport.session.WebSocketServerSockJsSession;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,6 +25,7 @@ import java.util.Map;
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     private int licznik = 0;
+    public Map<String, String> userSessionIdMap = new HashMap<>();
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -38,16 +42,17 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
         @Override
         protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-
-
+            WebSocketServerSockJsSession sockJsSession = ((SockJsWebSocketHandler) wsHandler).sockJsSession;
             Principal principal = request.getPrincipal();
 
             if (principal == null) {
-                principal = new UsernamePasswordAuthenticationToken(UserName.userName.get(licznik++), null);
+                principal = new UsernamePasswordAuthenticationToken(UserName.userName.get(licznik), null);
 
-                if(licznik==2)
-                {
-                    licznik=0;
+//                userSessionIdMap.put(UserName.userName.get(licznik), request.getHeaders().get("sec-websocket-key").get(0));
+//                userSessionIdMap.put(UserName.userName.get(licznik), wsHandler1.);
+                licznik++;
+                if (licznik == 2) {
+                    licznik = 0;
                 }
             }
 

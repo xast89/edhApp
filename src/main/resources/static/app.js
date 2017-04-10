@@ -39,6 +39,9 @@ function connect() {
             deckList = JSON.parse(cardList.body);
             startGame_onPage();
         });
+        stompClient.subscribe('/user/queue/shareOpponentCard', function (card) {
+            shareOpponentCard(card);
+        });
     });
 }
 
@@ -73,6 +76,13 @@ function shareCard(card) {
     }
     $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>')
         .appendTo('#'+card.destination)
+        .css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
+}
+
+function shareOpponentCard(card) {
+
+    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>')
+        .appendTo('#opBF')
         .css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
 }
 

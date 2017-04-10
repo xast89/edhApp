@@ -1,5 +1,6 @@
 package com.magic;
 
+import com.utils.UserName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -22,6 +23,8 @@ public class CardController {
 
     @Autowired
     private CardRepository cardRepository;
+    @Autowired
+    private WebSocketConfig webSocketConfig;
 
     @Autowired
     public SimpMessageSendingOperations messagingTemplate;
@@ -59,8 +62,14 @@ public class CardController {
 
     @MessageMapping("/shareCard")
     @SendTo("/topic/shareCard")
-    public Card shareCard(Card message)
+    public void shareCard(@Payload Card message, SimpMessageHeaderAccessor headerAccessor )
     {
-        return message;
+
+        for (String name : UserName.userName) {
+            if(!name.equals(headerAccessor.getUser().getName()))
+
+                messagingTemplate.convertAndSendToUser(webSocketConfig.userSessionIdMap.get(name), "queue/shareOpponentCard", message);
+        }
+//        return message;
     }
 }
