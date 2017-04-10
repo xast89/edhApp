@@ -1,9 +1,17 @@
 var stompClient = null;
-var deckList = [];
 var commnadZoneList = [];
+var deckList = [];
 var handList = [];
 var battleFieldList = [];
-var graveyardList = []
+var graveyardList = [];
+var map = {}; // or var map = {};
+    map['commandZone'] = commnadZoneList;
+    map['deck'] = deckList;
+    map['graveyard'] = graveyardList;
+    map['myBF'] = battleFieldList;
+    map['myHand'] = handList;
+
+
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -57,7 +65,7 @@ function showCard(name, id) {
     card.data('cardObj', {id: id, name: name});
 }
 
-//zagranie z reki na bf (zmienic nazwe funckcji!)
+
 function shareCard(card) {
     if($('#myBF #'+card.id).length)
     {
@@ -130,42 +138,42 @@ function getTopOffset(ev) {
     return topResult;
 }
 
-function removeCardFromDiv(card_div, card_id) {
-    if (card_div == "myHand") {
+function moveCardFromSourceToDestination(sourceDiv, destinationDiv, card_id) {
+    if (sourceDiv == "myHand") {
         $('#myHand #' + card_id).remove();
 
         var step;
         for (step = 0; step < handList.length; step++) {
             if (handList[step].id == card_id) {
                 var card = handList.splice(step, 1);
-                battleFieldList.push(card);
+                map[destinationDiv].push(card);
             }
         }
     }
 
-    else if (card_div == "commandZone") {
+    else if (sourceDiv == "commandZone") {
         $('#commandZone #' + card_id).remove();
 
         var step;
         for (step = 0; step < commnadZoneList.length; step++) {
             if (commnadZoneList[step].id == card_id) {
                 var card = commnadZoneList.splice(step, 1);
-                battleFieldList.push(card);
+                map[destinationDiv].push(card);
             }
         }
     }
 
-    else if (card_div == "graveyard") {
-        $('#graveyard #' + card_id).remove();
-
-        var step;
-        for (step = 0; step < graveyardList.length; step++) {
-            if (graveyardList[step].id == card_id) {
-                var card = graveyardList.splice(step, 1);
-                battleFieldList.push(card);
-            }
-        }
-    }
+    // else if (sourceDiv == "graveyard") {
+    //     $('#graveyard #' + card_id).remove();
+    //
+    //     var step;
+    //     for (step = 0; step < graveyardList.length; step++) {
+    //         if (graveyardList[step].id == card_id) {
+    //             var card = graveyardList.splice(step, 1);
+    //             map[destinationDiv].push(card);
+    //         }
+    //     }
+    // }
 }
 function drop(ev) {
     ev.preventDefault();
@@ -181,7 +189,7 @@ function drop(ev) {
                 'yPosition':getTopOffset(ev),
                 'destination': ev.target.id}));
 
-    removeCardFromDiv(card_div, card_id);
+    moveCardFromSourceToDestination(card_div, ev.target.id, card_id);
 }
 
 function showDeck() {
