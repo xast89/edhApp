@@ -25,15 +25,15 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/card', function (card) {
-            showCard(JSON.parse(card.body).name, JSON.parse(card.body).id);
-        });
+        //stompClient.subscribe('/topic/card', function (card) {
+        //    showCard(JSON.parse(card.body).name, JSON.parse(card.body).id);
+        //});
         stompClient.subscribe('/user/queue/reply', function (message) {
             personal_onPage(message.body);
         });
         stompClient.subscribe('/topic/shareCard', function (id) {
             var card = JSON.parse(id.body)
-            shareCard(card);
+            //shareCard(card);
         });
         stompClient.subscribe('/user/queue/startGame', function (cardList) {
             deckList = JSON.parse(cardList.body);
@@ -82,7 +82,14 @@ function shareCard(card) {
 
 function shareOpponentCard(card) {
 
-    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo('#opBF').css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
+    //$('<img id="' + card.id + '" src/=="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo('#opBF').css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
+    //$('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo('#opBF').css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
+    $('#opBF')
+        .append($('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>')
+            //.css({"position": "absolute", "left": card.xPosition, "top": card.yPosition}));
+            .css({"position": "absolute", "left": card.xPosition}));
+            //.css({transform: 'translateY('+card.yPosition+') translateX('+card.xPosition+')'}));
+            //.css({transform: ' translateX('+card.xPosition+')'}));
 }
 
 function setStartButton(value) {
@@ -114,7 +121,7 @@ function startGame_onPage() {
         var card = deckList.pop();
         handList.push(card);
 
-        drawCardOnDiv(card, "#myHand")
+        drawCardOnDiv(card, "#myHand");
     }
 }
 
@@ -195,8 +202,9 @@ function drop(ev) {
                 'id':$('#' + card_id).attr('id'),
                 'src':$('#' + card_id).attr('src'),
                 'xPosition':getLeftOffset(ev),
-                'yPosition':getTopOffset(ev),
-                'destination': ev.target.id}));
+                'yPosition':getTopOffset(ev)
+                //'destination': ev.target.id
+            }));
 
     moveCardFromSourceToDestination(card_div, ev.target.id, card_id);
 }
