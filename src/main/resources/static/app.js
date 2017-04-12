@@ -40,6 +40,7 @@ function connect() {
             startGame_onPage();
         });
         stompClient.subscribe('/user/queue/shareOpponentCard', function (card) {
+            var card = JSON.parse(card.body);
             shareOpponentCard(card);
         });
     });
@@ -81,9 +82,7 @@ function shareCard(card) {
 
 function shareOpponentCard(card) {
 
-    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>')
-        .appendTo('#opBF')
-        .css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
+    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo('#opBF').css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
 }
 
 function setStartButton(value) {

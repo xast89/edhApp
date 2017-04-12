@@ -1,8 +1,6 @@
 package com.magic;
 
-import com.utils.UserName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -10,10 +8,10 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pawel on 05.03.17.
@@ -61,15 +59,28 @@ public class CardController {
     }
 
     @MessageMapping("/shareCard")
-    @SendTo("/topic/shareCard")
     public void shareCard(@Payload Card message, SimpMessageHeaderAccessor headerAccessor )
     {
 
-        for (String name : UserName.userName) {
-            if(!name.equals(headerAccessor.getUser().getName()))
-
-                messagingTemplate.convertAndSendToUser(webSocketConfig.userSessionIdMap.get(name), "queue/shareOpponentCard", message);
+        for (Map.Entry<String, String> stringStringEntry : webSocketConfig.userSessionIdMap.entrySet())
+        {
+            if(!stringStringEntry.getValue().equals(headerAccessor.getSessionId()))
+            {
+                SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor
+                        .create(SimpMessageType.MESSAGE);
+                ha.setSessionId(stringStringEntry.getValue());
+                ha.setLeaveMutable(true);
+                messagingTemplate.convertAndSendToUser(stringStringEntry.getValue(), "/queue/shareOpponentCard", message, ha.getMessageHeaders());
+            }
         }
+
+//        for (String name : UserName.userName) {
+//            if(!name.equals(headerAccessor.getUser().getName()))
+//            {
+//                messagingTemplate.convertAndSendToUser(name, "queue/shareOpponentCard", message);
+//            }
+//
+//        }
 //        return message;
     }
 }
