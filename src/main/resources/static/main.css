@@ -1,5 +1,7 @@
 body {
-    background-color: #000000;
+    background-color: #0a543a;
+    padding: 0;
+    margin: 0;
 }
 
 #wrapper {
@@ -25,13 +27,19 @@ body {
 
 .menu {
     background: black;
+    width: 100%;
+    top: 0;
+    left: 0;
 }
 
 .space {
     height: 10px;
     float: left;
     clear: left;
-    background: #B6000C;
+    background: #d3d3d3;
+    width: 100%;
+    top: 0;
+    left: 0;
 }
 
 .card {
