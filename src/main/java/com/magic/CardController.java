@@ -73,14 +73,5 @@ public class CardController {
                 messagingTemplate.convertAndSendToUser(stringStringEntry.getValue(), "/queue/shareOpponentCard", message, ha.getMessageHeaders());
             }
         }
-
-//        for (String name : UserName.userName) {
-//            if(!name.equals(headerAccessor.getUser().getName()))
-//            {
-//                messagingTemplate.convertAndSendToUser(name, "queue/shareOpponentCard", message);
-//            }
-//
-//        }
-//        return message;
     }
 }

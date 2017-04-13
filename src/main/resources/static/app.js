@@ -61,35 +61,11 @@ function drawCard() {
     drawCardOnDiv(card, "#myHand");
 }
 
-
-// TODO: poczytac o tym
-function showCard(name, id) {
-    var card = $('<div class="col-md-2 card" id="' + id + '">' + name + '</div>');
-    card.appendTo("#myHand");
-    card.data('cardObj', {id: id, name: name});
-}
-
-
-function shareCard(card) {
-    if($('#myBF #'+card.id).length)
-    {
-        $('#myBF #'+card.id).remove();
-    }
-    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>')
-        .appendTo('#'+card.destination)
-        .css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
-}
-
 function shareOpponentCard(card) {
 
-    //$('<img id="' + card.id + '" src/=="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo('#opBF').css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
-    //$('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo('#opBF').css({"position": "absolute", "left": card.xPosition, "top": card.yPosition});
-    $('#opBF')
-        .append($('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>')
-            //.css({"position": "absolute", "left": card.xPosition, "top": card.yPosition}));
-            .css({"position": "absolute", "left": card.xPosition}));
-            //.css({transform: 'translateY('+card.yPosition+') translateX('+card.xPosition+')'}));
-            //.css({transform: ' translateX('+card.xPosition+')'}));
+    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo('#opBF').css({"position": "absolute", "left": card.xPosition
+        // , "top": card.yPosition
+    });
 }
 
 function setStartButton(value) {
@@ -131,6 +107,7 @@ function allowDrop(ev) {
 
 function drag(ev) {
     ev.dataTransfer.setData("card", ev.target.id);
+    ev.dataTransfer.setData("src", ev.target.src);
     ev.dataTransfer.setData("div",ev.target.parentNode.id);
     ev.dataTransfer.setData("offsetLeft", ev.clientX-ev.target.getBoundingClientRect().left);
     ev.dataTransfer.setData("offsetTop", ev.clientY-ev.target.getBoundingClientRect().top);
@@ -195,6 +172,7 @@ function drop(ev) {
     ev.preventDefault();
     var card_id = ev.dataTransfer.getData("card");
     var card_div = ev.dataTransfer.getData("div");
+    var card_src = ev.dataTransfer.getData("src");
 
     stompClient.send("/app/shareCard", {},
         JSON.stringify(
@@ -205,6 +183,16 @@ function drop(ev) {
                 'yPosition':getTopOffset(ev)
                 //'destination': ev.target.id
             }));
+
+    if($('#myBF #'+card_id).length)
+    {
+        $('#myBF #'+card_id).remove();
+    }
+    $('<img id="' + card_id + '" src="' + card_src + '" draggable="true" ondragstart="drag(event)"/>')
+        .appendTo('#myBF')
+        .css({"position": "absolute", "left": getLeftOffset(ev),
+            // "top": getTopOffset(ev)
+        });
 
     moveCardFromSourceToDestination(card_div, ev.target.id, card_id);
 }

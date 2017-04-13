@@ -14,45 +14,47 @@
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
     enabled. Please enable
     Javascript and reload this page!</h2></noscript>
-<!--<div id="main-content" class="container">-->
-<div id="jjj">
-
-
-    <div class="row">
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="connect">WebSocket connection:</label>
+<div id="wrapper">
+    <div class="inline-one menu">
+        <div class="box2">
+            <form>
+                <div>
                     <button id="connect" class="btn btn-default" type="submit">Connect</button>
                     <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
                     </button>
                 </div>
             </form>
         </div>
-        <div class="col-md-6">
-            <form class="form-inline">
+        <div class="box2">
+            <form>
                 <button id="startGame" class="btn btn-default" type="submit" disabled="disabled">StartGame</button>
                 <button id="drawCard" class="btn btn-default" type="submit">drawCard</button>
             </form>
         </div>
     </div>
-    <div class="row">
-        <div id="commandZone" class="cardPlace"></div>
-        <div id="deck" class="cardPlace" ondrop="drop(event)" ondragover="allowDrop(event)"><button onclick="showDeck()">Click me</button></div>
-        <div id="graveyard" class="cardPlace" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-        <div id="exile" class="cardPlace"></div>
-    </div>
 
-    <div class="row">
-        <!--<div id="myHand" class="col-md-12 card well">-->
-        <div id="myHand">
+    <div class="inline-next space"></div>
+
+    <div class="inline-next">
+        <div id="commandZone" class="cardPlace box2"></div>
+        <div id="deck" class="cardPlace box2" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <button onclick="showDeck()">Click me</button>
         </div>
+        <div id="graveyard" class="cardPlace box2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        <div id="exile" class="cardPlace box2"></div>
     </div>
 
+    <div class="inline-next space"></div>
 
-    <div id="myBF" class="battle_field" ondrop="drop(event)" ondragover="allowDrop(event)">Moj BF</div>
-    <br>
-    <div id="opBF" class="battle_field" ondrop="drop(event)" ondragover="allowDrop(event)">Opponent BF</div>
+    <div class="inline-next">
+        <div id="myBF" class="battle-field left box2" ondrop="drop(event)" ondragover="allowDrop(event)">Moj BF</div>
+        <div id="opBF" class="battle-field right box2">Opponent BF</div>
+    </div>
+
+    <div class="inline-next space"></div>
+
+    <div id="myHand" class="inline-next"></div>
+
 </div>
 </body>
 </html>
