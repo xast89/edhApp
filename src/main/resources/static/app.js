@@ -11,6 +11,8 @@ var map = {}; // or var map = {};
     map['myBF'] = battleFieldList;
     map['myHand'] = handList;
 
+var distanceFromTop = 175;
+
 
 
 function setConnected(connected) {
@@ -64,7 +66,7 @@ function drawCard() {
 function shareOpponentCard(card) {
 
     $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo('#opBF').css({"position": "absolute", "left": card.xPosition
-        // , "top": card.yPosition
+         , "top": card.yPosition
     });
 }
 
@@ -93,7 +95,7 @@ function startGame_onPage() {
     .css({"position": "absolute", "margin-left": "auto", "margin-right": "auto"});
 
     var step;
-    for (step = 1; step < 8; step++) {
+    for (step = 1; step < 2; step++) {
         var card = deckList.pop();
         handList.push(card);
 
@@ -103,14 +105,6 @@ function startGame_onPage() {
 
 function allowDrop(ev) {
     ev.preventDefault();
-}
-
-function drag(ev) {
-    ev.dataTransfer.setData("card", ev.target.id);
-    ev.dataTransfer.setData("src", ev.target.src);
-    ev.dataTransfer.setData("div",ev.target.parentNode.id);
-    ev.dataTransfer.setData("offsetLeft", ev.clientX-ev.target.getBoundingClientRect().left);
-    ev.dataTransfer.setData("offsetTop", ev.clientY-ev.target.getBoundingClientRect().top);
 }
 
 function getLeftOffset(ev) {
@@ -125,7 +119,7 @@ function getLeftOffset(ev) {
 function getTopOffset(ev) {
 
     var offsetTop = Number(ev.dataTransfer.getData("offsetTop"));
-    var top = ev.pageY;
+    var top = ev.pageY - distanceFromTop;
     var topResult =  (top - offsetTop) + 'px';
 
     return topResult;
@@ -168,19 +162,31 @@ function moveCardFromSourceToDestination(sourceDiv, destinationDiv, card_id) {
     //     }
     // }
 }
+
+function drag(ev) {
+    ev.dataTransfer.setData("card", ev.target.id);
+    ev.dataTransfer.setData("src", ev.target.src);
+    ev.dataTransfer.setData("div",ev.target.parentNode.id);
+    ev.dataTransfer.setData("offsetLeft", ev.clientX-ev.target.getBoundingClientRect().left);
+    ev.dataTransfer.setData("offsetTop", ev.clientY-ev.target.getBoundingClientRect().top);
+}
+
 function drop(ev) {
     ev.preventDefault();
     var card_id = ev.dataTransfer.getData("card");
     var card_div = ev.dataTransfer.getData("div");
     var card_src = ev.dataTransfer.getData("src");
 
+    var xPosition = getLeftOffset(ev)
+    var yPosition = getTopOffset(ev)
+
     stompClient.send("/app/shareCard", {},
         JSON.stringify(
             {
                 'id':$('#' + card_id).attr('id'),
                 'src':$('#' + card_id).attr('src'),
-                'xPosition':getLeftOffset(ev),
-                'yPosition':getTopOffset(ev)
+                'xPosition':xPosition,
+                'yPosition':yPosition
                 //'destination': ev.target.id
             }));
 
@@ -190,8 +196,8 @@ function drop(ev) {
     }
     $('<img id="' + card_id + '" src="' + card_src + '" draggable="true" ondragstart="drag(event)"/>')
         .appendTo('#myBF')
-        .css({"position": "absolute", "left": getLeftOffset(ev),
-            // "top": getTopOffset(ev)
+        .css({"position": "absolute", "left": xPosition,
+             "top": yPosition
         });
 
     moveCardFromSourceToDestination(card_div, ev.target.id, card_id);
