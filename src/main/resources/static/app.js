@@ -11,7 +11,7 @@ var map = {}; // or var map = {};
     map['myBF'] = battleFieldList;
     map['myHand'] = handList;
 
-var distanceFromTop = 175;
+var distanceFromTop = 180;
 
 
 
