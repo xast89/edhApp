@@ -3,17 +3,21 @@ package com.magic;
 /**
  * Created by pawel on 05.03.17.
  */
-public class Card {
+public class Card
+{
 
     private String name;
+    private String skill;
     private String id;
     private String src;
     private String xPosition;
     private String yPosition;
     private String destination;
 
-    public Card(String name, String id, String src) {
+    public Card(String name, String id, String src, String skill)
+    {
         this.name = name;
+        this.skill = skill;
         this.id = id;
         this.src = src;
     }
@@ -23,59 +27,82 @@ public class Card {
 
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public String getId() {
+    public String getId()
+    {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(String id)
+    {
         this.id = id;
     }
 
-    public String getSrc() {
+    public String getSrc()
+    {
         return src;
     }
 
-    public void setSrc(String src) {
+    public void setSrc(String src)
+    {
         this.src = src;
     }
 
-    public String getxPosition() {
+    public String getxPosition()
+    {
         return xPosition;
     }
 
-    public void setxPosition(String xPosition) {
+    public void setxPosition(String xPosition)
+    {
         this.xPosition = xPosition;
     }
 
-    public String getyPosition() {
+    public String getyPosition()
+    {
         return yPosition;
     }
 
-    public void setyPosition(String yPosition) {
+    public void setyPosition(String yPosition)
+    {
         this.yPosition = yPosition;
     }
 
-    public String getDestination() {
+    public String getDestination()
+    {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(String destination)
+    {
         this.destination = destination;
     }
 
+    public String getSkill()
+    {
+        return skill;
+    }
+
+    public void setSkill(String skill)
+    {
+        this.skill = skill;
+    }
+
     @Override
-    public String toString() {
-        //create JSON format
-        return "{\"name\":\""+getName()+"\"," +
-                "\"id\":\""+getId()+"\"," +
-                "\"src\":\""+getSrc()+"\"}";
+    public String toString()
+    {
+        // create JSON format
+        return "{\"name\":\"" + getName() + "\"," +
+                "\"id\":\"" + getId() + "\"," +
+                "\"src\":\"" + getSrc() + "\"}";
     }
 }

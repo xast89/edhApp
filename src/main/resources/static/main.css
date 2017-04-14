@@ -85,3 +85,11 @@ div {
     position: relative;
 }
 
+/*TOOLTIP*/
+
+img[title]:hover:after {
+    content: attr(title);
+    padding: 10px;
+    background-color: white;
+    position: absolute;
+}

@@ -9,16 +9,21 @@ import java.util.List;
  * Created by pawel on 05.03.17.
  */
 @Repository
-public class CardRepository {
+public class CardRepository
+{
+
+    private static final String NEW_LINE = "&#013;";
 
     private List<Card> dereviDeck;
 
-    public CardRepository() {
+    public CardRepository()
+    {
         this.dereviDeck = createDereviDeck();
 
     }
 
-    public List<Card> getDereviDeck() {
+    public List<Card> getDereviDeck()
+    {
         return dereviDeck;
     }
 
@@ -26,22 +31,22 @@ public class CardRepository {
 
         List<Card> dereviDeckTemp = new ArrayList<>();
 
-        dereviDeckTemp.add(createCard("Forest", "pca_151", "http://magiccards.info/scans/en/pca/151.jpg"));
-        dereviDeckTemp.add(createCard("Island", "pca_137", "http://magiccards.info/scans/en/pca/137.jpg"));
-        dereviDeckTemp.add(createCard("Plains", "pca_132", "http://magiccards.info/scans/en/pca/132.jpg"));
-        dereviDeckTemp.add(createCard("Fool's Demise", "c14_111", "http://magiccards.info/scans/en/c14/111.jpg"));
-        dereviDeckTemp.add(createCard("Knight of New Alara", "arb_70", "http://magiccards.info/scans/en/arb/70.jpg"));
-        dereviDeckTemp.add(createCard("Civic Saber ", "rtr_227", "http://magiccards.info/scans/en/rtr/227.jpg"));
-        dereviDeckTemp.add(createCard("Rancor", "pca_76", "http://magiccards.info/scans/en/pca/76.jpg"));
-        dereviDeckTemp.add(createCard("Sylvan Caryatid", "ths_180", "http://magiccards.info/scans/en/ths/180.jpg"));
-        dereviDeckTemp.add(createCard("Mask of Avacyn", "isd_229", "http://magiccards.info/scans/en/isd/229.jpg"));
-        dereviDeckTemp.add(createCard("Trailblazer's Boots", "zen_208", "http://magiccards.info/scans/en/zen/208.jpg"));
-        dereviDeckTemp.add(createCard("Opportunity", "c13_51", "http://magiccards.info/scans/en/c13/51.jpg"));
-        dereviDeckTemp.add(createCard("Jace's Ingenuity", "m15_63", "http://magiccards.info/scans/en/m15/63.jpg"));
-        dereviDeckTemp.add(createCard("Brainstorm", "ema_40", "http://magiccards.info/scans/en/ema/40.jpg"));
-        dereviDeckTemp.add(createCard("Sakura-Tribe Elder", "164", "http://magiccards.info/scans/en/c16/164.jpg"));
-        dereviDeckTemp.add(createCard("Simic Signet", "270", "http://magiccards.info/scans/en/c16/270.jpg"));
-        dereviDeckTemp.add(createCard("Derevi, Empyrial Tactician", "c13_186", "http://magiccards.info/scans/en/c13/186.jpg"));
+        dereviDeckTemp.add(createCard("Forest", "pca_151", "cards/green/forest.jpg", "Add G to your mana pool"));
+        dereviDeckTemp.add(createCard("Island", "pca_137", "cards/blue/island.jpg" , "Add U to your mana pool"));
+        dereviDeckTemp.add(createCard("Plains", "pca_132","cards/white/plains.jpg" , "Add W to your mana pool"));
+        dereviDeckTemp.add(createCard("Rancor", "pca_76", "cards/green/rancor.jpg", "Enchant creature"+NEW_LINE+"Enchanted creature gets +2/+0 and has trample."+NEW_LINE+"When Rancor is put into a graveyard from the battlefield, return Rancor to its owner's hand."));
+//        dereviDeckTemp.add(createCard("Fool's Demise", "c14_111", "http://magiccards.info/scans/en/c14/111.jpg"));
+//        dereviDeckTemp.add(createCard("Knight of New Alara", "arb_70", "http://magiccards.info/scans/en/arb/70.jpg"));
+//        dereviDeckTemp.add(createCard("Civic Saber ", "rtr_227", "http://magiccards.info/scans/en/rtr/227.jpg"));
+//        dereviDeckTemp.add(createCard("Sylvan Caryatid", "ths_180", "http://magiccards.info/scans/en/ths/180.jpg"));
+//        dereviDeckTemp.add(createCard("Mask of Avacyn", "isd_229", "http://magiccards.info/scans/en/isd/229.jpg"));
+//        dereviDeckTemp.add(createCard("Trailblazer's Boots", "zen_208", "http://magiccards.info/scans/en/zen/208.jpg"));
+//        dereviDeckTemp.add(createCard("Opportunity", "c13_51", "http://magiccards.info/scans/en/c13/51.jpg"));
+//        dereviDeckTemp.add(createCard("Jace's Ingenuity", "m15_63", "http://magiccards.info/scans/en/m15/63.jpg"));
+//        dereviDeckTemp.add(createCard("Brainstorm", "ema_40", "http://magiccards.info/scans/en/ema/40.jpg"));
+//        dereviDeckTemp.add(createCard("Sakura-Tribe Elder", "164", "http://magiccards.info/scans/en/c16/164.jpg"));
+//        dereviDeckTemp.add(createCard("Simic Signet", "270", "http://magiccards.info/scans/en/c16/270.jpg"));
+        dereviDeckTemp.add(createCard("Derevi, Empyrial Tactician",  "c13_186", "cards/multi/dereviEmpyrialTactician.jpg", "Flying"+NEW_LINE+"Whenever Derevi, Empyrial Tactician enters the battlefield or a creature you control deals combat damage to a player, you may tap or untap target permanent."+NEW_LINE+"{1}{G}{W}{U}: Put Derevi onto the battlefield from the command zone."));
 //        dereviDeckTemp.add(createCard("Azorius Chancery", "282"));
 //        dereviDeckTemp.add(createCard("Silent Arbiter", "204"));
 //        dereviDeckTemp.add(createCard("Thornwood Falls", "333"));
@@ -131,7 +136,8 @@ public class CardRepository {
 
     }
 
-    private Card createCard(String name, String number, String src) {
-        return new Card(name, number, src);
+    private Card createCard(String name, String number, String src, String skill)
+    {
+        return new Card(name, number, src, skill);
     }
 }

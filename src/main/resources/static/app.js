@@ -5,14 +5,13 @@ var handList = [];
 var battleFieldList = [];
 var graveyardList = [];
 var map = {}; // or var map = {};
-    map['commandZone'] = commnadZoneList;
-    map['deck'] = deckList;
-    map['graveyard'] = graveyardList;
-    map['myBF'] = battleFieldList;
-    map['myHand'] = handList;
+map['commandZone'] = commnadZoneList;
+map['deck'] = deckList;
+map['graveyard'] = graveyardList;
+map['myBF'] = battleFieldList;
+map['myHand'] = handList;
 
 var distanceFromTop = 180;
-
 
 
 function setConnected(connected) {
@@ -27,9 +26,6 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        //stompClient.subscribe('/topic/card', function (card) {
-        //    showCard(JSON.parse(card.body).name, JSON.parse(card.body).id);
-        //});
         stompClient.subscribe('/user/queue/reply', function (message) {
             personal_onPage(message.body);
         });
@@ -63,18 +59,6 @@ function drawCard() {
     drawCardOnDiv(card, "#myHand");
 }
 
-function shareOpponentCard(card) {
-
-    if($('#opBF #'+card.id).length)
-    {
-        $('#opBF #'+card.id).remove();
-    }
-
-    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo('#opBF').css({"position": "absolute", "left": card.xPosition
-         , "top": card.yPosition
-    });
-}
-
 function setStartButton(value) {
     $("#startGame").prop("disabled", value);
 }
@@ -88,16 +72,16 @@ function personal_onPage(message) {
 }
 
 function drawCardOnDiv(card, div) {
-    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo(div);
+    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)" title="' + card.skill + '" />').appendTo(div);
 }
 function startGame_onPage() {
 
     var commander = deckList.pop();
     commnadZoneList.push(commander);
 
-    $('<img id="' + commander.id + '" src="' + commander.src + '" draggable="true" ondragstart="drag(event)"/>')
-    .appendTo("#commandZone")
-    .css({"position": "absolute", "margin-left": "auto", "margin-right": "auto"});
+    $('<img id="' + commander.id + '" src="' + commander.src + '" draggable="true" ondragstart="drag(event)" title="' + commander.skill + '" />')
+        .appendTo("#commandZone")
+        .css({"position": "absolute", "margin-left": "auto", "margin-right": "auto"});
 
     var step;
     for (step = 1; step < 2; step++) {
@@ -116,7 +100,7 @@ function getLeftOffset(ev) {
 
     var offsetLeft = Number(ev.dataTransfer.getData("offsetLeft"));
     var left = ev.pageX;
-    var leftResult = (left-offsetLeft) + 'px';
+    var leftResult = (left - offsetLeft) + 'px';
 
     return leftResult;
 }
@@ -125,7 +109,7 @@ function getTopOffset(ev) {
 
     var offsetTop = Number(ev.dataTransfer.getData("offsetTop"));
     var top = ev.pageY - distanceFromTop;
-    var topResult =  (top - offsetTop) + 'px';
+    var topResult = (top - offsetTop) + 'px';
 
     return topResult;
 }
@@ -171,9 +155,10 @@ function moveCardFromSourceToDestination(sourceDiv, destinationDiv, card_id) {
 function drag(ev) {
     ev.dataTransfer.setData("card", ev.target.id);
     ev.dataTransfer.setData("src", ev.target.src);
-    ev.dataTransfer.setData("div",ev.target.parentNode.id);
-    ev.dataTransfer.setData("offsetLeft", ev.clientX-ev.target.getBoundingClientRect().left);
-    ev.dataTransfer.setData("offsetTop", ev.clientY-ev.target.getBoundingClientRect().top);
+    ev.dataTransfer.setData("skill", ev.target.title);
+    ev.dataTransfer.setData("div", ev.target.parentNode.id);
+    ev.dataTransfer.setData("offsetLeft", ev.clientX - ev.target.getBoundingClientRect().left);
+    ev.dataTransfer.setData("offsetTop", ev.clientY - ev.target.getBoundingClientRect().top);
 }
 
 function drop(ev) {
@@ -181,6 +166,7 @@ function drop(ev) {
     var card_id = ev.dataTransfer.getData("card");
     var card_div = ev.dataTransfer.getData("div");
     var card_src = ev.dataTransfer.getData("src");
+    var card_skill = ev.dataTransfer.getData("skill");
 
     var xPosition = getLeftOffset(ev)
     var yPosition = getTopOffset(ev)
@@ -188,24 +174,37 @@ function drop(ev) {
     stompClient.send("/app/shareCard", {},
         JSON.stringify(
             {
-                'id':$('#' + card_id).attr('id'),
-                'src':$('#' + card_id).attr('src'),
-                'xPosition':xPosition,
-                'yPosition':yPosition
+                'id': $('#' + card_id).attr('id'),
+                'src': $('#' + card_id).attr('src'),
+                'skill': $('#' + card_id).attr('title'),
+                'xPosition': xPosition,
+                'yPosition': yPosition
                 //'destination': ev.target.id
             }));
 
-    if($('#myBF #'+card_id).length)
-    {
-        $('#myBF #'+card_id).remove();
+    if ($('#myBF #' + card_id).length) {
+        $('#myBF #' + card_id).remove();
     }
-    $('<img id="' + card_id + '" src="' + card_src + '" draggable="true" ondragstart="drag(event)"/>')
+    $('<img id="' + card_id + '" src="' + card_src + '" draggable="true" ondragstart="drag(event)" title="' + card_skill + '" />')
         .appendTo('#myBF')
-        .css({"position": "absolute", "left": xPosition,
-             "top": yPosition
+        .css({
+            "position": "absolute", "left": xPosition,
+            "top": yPosition
         });
 
     moveCardFromSourceToDestination(card_div, ev.target.id, card_id);
+}
+
+function shareOpponentCard(card) {
+
+    if ($('#opBF #' + card.id).length) {
+        $('#opBF #' + card.id).remove();
+    }
+
+    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)" title="' + card.skill + '" />').appendTo('#opBF').css({
+        "position": "absolute", "left": card.xPosition
+        , "top": card.yPosition
+    });
 }
 
 function showDeck() {
