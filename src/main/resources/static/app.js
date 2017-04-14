@@ -65,6 +65,11 @@ function drawCard() {
 
 function shareOpponentCard(card) {
 
+    if($('#opBF #'+card.id).length)
+    {
+        $('#opBF #'+card.id).remove();
+    }
+
     $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)"/>').appendTo('#opBF').css({"position": "absolute", "left": card.xPosition
          , "top": card.yPosition
     });
