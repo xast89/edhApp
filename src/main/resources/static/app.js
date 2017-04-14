@@ -185,7 +185,9 @@ function drop(ev) {
     if ($('#myBF #' + card_id).length) {
         $('#myBF #' + card_id).remove();
     }
-    $('<img id="' + card_id + '" src="' + card_src + '" draggable="true" ondragstart="drag(event)" title="' + card_skill + '" />')
+    $('<img id="' + card_id + '" src="' + card_src + '" onmousedown="bigDisplay(\'' + card_src + '\')" onmouseup="removeBigDisplay()" draggable="true" ondragstart="drag(event)" ' +
+            //'title="' + card_skill + '" ' +
+        '/>')
         .appendTo('#myBF')
         .css({
             "position": "absolute", "left": xPosition,
@@ -193,6 +195,14 @@ function drop(ev) {
         });
 
     moveCardFromSourceToDestination(card_div, ev.target.id, card_id);
+}
+
+function bigDisplay(src) {
+    $('<img id="bla" class="big-display" src="' + src + '"  />').appendTo("#bigDisplay")
+}
+
+function removeBigDisplay() {
+    $('div#bigDisplay > img').remove();
 }
 
 function shareOpponentCard(card) {

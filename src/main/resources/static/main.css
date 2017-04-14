@@ -53,6 +53,12 @@ body {
     border: 6px dotted #0a26aa;
 }
 
+.big-display {
+    width: 200px;
+    height: 260px;
+    background: #DEDE0B;
+}
+
 .cardPlace {
     display: inline-block;
     width: 110px;
@@ -81,15 +87,20 @@ img {
     height: 100px;
 }
 
+img .big-display{
+    width: 170px;
+    height: 230px;
+}
+
 div {
     position: relative;
 }
 
 /*TOOLTIP*/
 
-img[title]:hover:after {
-    content: attr(title);
-    padding: 10px;
-    background-color: white;
-    position: absolute;
-}
+/*img[title]:hover:after {*/
+    /*content: attr(title);*/
+    /*padding: 10px;*/
+    /*background-color: white;*/
+    /*position: absolute;*/
+/*}*/
