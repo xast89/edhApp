@@ -185,9 +185,15 @@ function drop(ev) {
     if ($('#myBF #' + card_id).length) {
         $('#myBF #' + card_id).remove();
     }
-    $('<img id="' + card_id + '" src="' + card_src + '" onmousedown="bigDisplay(\'' + card_src + '\')" onmouseup="removeBigDisplay()" draggable="true" ondragstart="drag(event)" ' +
-            //'title="' + card_skill + '" ' +
-        '/>')
+    $('<img id="' + card_id + '" ' +
+        'src="' + card_src + '" ' +
+        'onmousedown="bigDisplay(\'' + card_src + '\')" ' +
+        'onmouseup="removeBigDisplay()" ' +
+            //'onkeypress ="tap(event, \'' + card_src + '\')"' +
+            'onkeypress ="tap(event)"' +
+        'onkeypress ="tap(event)"' +
+        'draggable="true" ' +
+        'ondragstart="drag(event)"/>')
         .appendTo('#myBF')
         .css({
             "position": "absolute", "left": xPosition,
@@ -198,7 +204,24 @@ function drop(ev) {
 }
 
 function bigDisplay(src) {
-    $('<img id="bla" class="big-display" src="' + src + '"  />').appendTo("#bigDisplay")
+    $('div#bigDisplay > img').remove();
+    $('<img id="bla" class="big-display" src="' + src + '"  />').appendTo("#bigDisplay");
+
+}
+
+//function tap(event, src) {
+function tap(event) {
+    var src = "adfasdfasdfasdfasdfas";
+    switch (event.keyCode) {
+        case 116: // t
+            var newSrc = src.substring(0, src.length - 4) + '_t.jpg';
+            $('img[src="' + src + '"]').attr('src', newSrc);
+            break;
+    }
+
+//116 t / 84 T
+
+
 }
 
 function removeBigDisplay() {
