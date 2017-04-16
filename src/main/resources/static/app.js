@@ -72,14 +72,24 @@ function personal_onPage(message) {
 }
 
 function drawCardOnDiv(card, div) {
-    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)" title="' + card.skill + '" />').appendTo(div);
+    $('<img id="' + card.id + '" ' +
+        'src="' + card.src + '" ' +
+        'draggable="true" ' +
+        'ondragstart="drag(event)" ' +
+        'onclick="bigDisplay(\'' + card.src + '\')" ' +
+        'title="' + card.skill + '" />').appendTo(div);
 }
 function startGame_onPage() {
 
     var commander = deckList.pop();
     commnadZoneList.push(commander);
 
-    $('<img id="' + commander.id + '" src="' + commander.src + '" draggable="true" ondragstart="drag(event)" title="' + commander.skill + '" />')
+    $('<img id="' + commander.id + '" ' +
+        'src="' + commander.src + '" ' +
+        'draggable="true" ' +
+        'ondragstart="drag(event)" ' +
+        'onclick="bigDisplay(\'' + commander.src + '\')" ' +
+        'title="' + commander.skill + '" />')
         .appendTo("#commandZone")
         .css({"position": "absolute", "margin-left": "auto", "margin-right": "auto"});
 
@@ -187,11 +197,11 @@ function drop(ev) {
     }
     $('<img id="' + card_id + '" ' +
         'src="' + card_src + '" ' +
-        //'onmousedown="bigDisplay(\'' + card_src + '\')" ' +
-        //'onmouseup="removeBigDisplay()" ' +
+        'onclick="bigDisplay(\'' + card_src + '\')" ' +
+            //'onmouseup="removeBigDisplay()" ' +
             //'onkeypress ="tap(event, \'' + card_src + '\')"' +
             //'onkeypress ="tap(event)"' +
-        //'onkeypress ="tap(event)"' +
+            //'onkeypress ="tap(event)"' +
         'draggable="true" ' +
         'ondragstart="drag(event)"/>')
         .appendTo('#myBF')
@@ -199,7 +209,7 @@ function drop(ev) {
             "position": "absolute", "left": xPosition,
             "top": yPosition
         })
-        .on('mouseup', bigDisplay(card_src) )
+        //.on('mouseup', bigDisplay(card_src) )
     ;
 
     moveCardFromSourceToDestination(card_div, ev.target.id, card_id);
@@ -236,7 +246,12 @@ function shareOpponentCard(card) {
         $('#opBF #' + card.id).remove();
     }
 
-    $('<img id="' + card.id + '" src="' + card.src + '" draggable="true" ondragstart="drag(event)" title="' + card.skill + '" />').appendTo('#opBF').css({
+    $('<img id="' + card.id + '" ' +
+        'src="' + card.src + '" ' +
+        'draggable="true" ' +
+        'ondragstart="drag(event)" ' +
+        'onmouseenter="bigDisplay(\'' + card.src + '\')" ' +
+        'title="' + card.skill + '" />').appendTo('#opBF').css({
         "position": "absolute", "left": card.xPosition
         , "top": card.yPosition
     });
