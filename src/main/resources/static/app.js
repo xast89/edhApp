@@ -187,18 +187,20 @@ function drop(ev) {
     }
     $('<img id="' + card_id + '" ' +
         'src="' + card_src + '" ' +
-        'onmousedown="bigDisplay(\'' + card_src + '\')" ' +
-        'onmouseup="removeBigDisplay()" ' +
+        //'onmousedown="bigDisplay(\'' + card_src + '\')" ' +
+        //'onmouseup="removeBigDisplay()" ' +
             //'onkeypress ="tap(event, \'' + card_src + '\')"' +
-            'onkeypress ="tap(event)"' +
-        'onkeypress ="tap(event)"' +
+            //'onkeypress ="tap(event)"' +
+        //'onkeypress ="tap(event)"' +
         'draggable="true" ' +
         'ondragstart="drag(event)"/>')
         .appendTo('#myBF')
         .css({
             "position": "absolute", "left": xPosition,
             "top": yPosition
-        });
+        })
+        .on('mouseup', bigDisplay(card_src) )
+    ;
 
     moveCardFromSourceToDestination(card_div, ev.target.id, card_id);
 }
@@ -241,7 +243,7 @@ function shareOpponentCard(card) {
 }
 
 function showDeck() {
-    alert(deckList[0]);
+    alert(deckList[0].name);
 }
 
 $(function () {
