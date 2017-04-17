@@ -7,17 +7,15 @@ public class Card
 {
 
     private String name;
-    private String skill;
     private String id;
     private String src;
     private String xPosition;
     private String yPosition;
     private String destination;
 
-    public Card(String name, String id, String src, String skill)
+    public Card(String name, String id, String src)
     {
         this.name = name;
-        this.skill = skill;
         this.id = id;
         this.src = src;
     }
@@ -85,16 +83,6 @@ public class Card
     public void setDestination(String destination)
     {
         this.destination = destination;
-    }
-
-    public String getSkill()
-    {
-        return skill;
-    }
-
-    public void setSkill(String skill)
-    {
-        this.skill = skill;
     }
 
     @Override

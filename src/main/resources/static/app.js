@@ -199,17 +199,20 @@ function drop(ev) {
         'src="' + card_src + '" ' +
         'onclick="bigDisplay(\'' + card_src + '\')" ' +
             //'onmouseup="removeBigDisplay()" ' +
-            //'onkeypress ="tap(event, \'' + card_src + '\')"' +
+        'ondblclick ="tap(\'' + card_src + '\')"' +
             //'onkeypress ="tap(event)"' +
             //'onkeypress ="tap(event)"' +
         'draggable="true" ' +
         'ondragstart="drag(event)"/>')
+    //.on('mouseover', bigDisplay(card_src))
         .appendTo('#myBF')
         .css({
             "position": "absolute", "left": xPosition,
             "top": yPosition
         })
-        //.on('mouseup', bigDisplay(card_src) )
+        //.on('mouseover', bigDisplay(card_src) )
+        //.on('mouseout', removeBigDisplay() )
+        //.on('onmouseout', removeBigDisplay() )
     ;
 
     moveCardFromSourceToDestination(card_div, ev.target.id, card_id);
@@ -221,18 +224,21 @@ function bigDisplay(src) {
 
 }
 
-//function tap(event, src) {
-function tap(event) {
-    var src = "adfasdfasdfasdfasdfas";
-    switch (event.keyCode) {
-        case 116: // t
-            var newSrc = src.substring(0, src.length - 4) + '_t.jpg';
-            $('img[src="' + src + '"]').attr('src', newSrc);
-            break;
-    }
 
-//116 t / 84 T
+function tap(src) {
+    //jQuery.noConflict();
+    //jQuery('#' + id).rotate(90);
+    //jQuery('#'+id).rotateLeft([angle=90]);
+    //$('#'+id).toggle(function() {
+    //    $(this).rotate({ endDeg:180, persist:true });
+    //}    );
+    //$('#'+id).click(function() {
+    //    $(this).rotate({ startDeg:-25, endDeg:0, easing:'ease-in' });
+    //});
 
+
+    var newSrc = src.substring(0, src.length - 4) + '_t.jpg';
+    $('img[src="' + src + '"]').attr('src', newSrc);
 
 }
 
@@ -250,11 +256,11 @@ function shareOpponentCard(card) {
         'src="' + card.src + '" ' +
         'draggable="true" ' +
         'ondragstart="drag(event)" ' +
-        'onmouseenter="bigDisplay(\'' + card.src + '\')" ' +
-        'title="' + card.skill + '" />').appendTo('#opBF').css({
-        "position": "absolute", "left": card.xPosition
-        , "top": card.yPosition
-    });
+        'onmouseenter="bigDisplay(\'' + card.src + '\')" />')
+        .appendTo('#opBF')
+        .css({
+            "position": "absolute", "left": card.xPosition, "top": card.yPosition
+        });
 }
 
 function showDeck() {
