@@ -11,6 +11,7 @@ public class Card
     private String src;
     private String xPosition;
     private String yPosition;
+    private String tap;
     private String destination;
 
     public Card(String name, String id, String src)
@@ -83,6 +84,16 @@ public class Card
     public void setDestination(String destination)
     {
         this.destination = destination;
+    }
+
+    public String getTap()
+    {
+        return tap;
+    }
+
+    public void setTap(String tap)
+    {
+        this.tap = tap;
     }
 
     @Override

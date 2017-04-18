@@ -41,6 +41,10 @@ function connect() {
             var card = JSON.parse(card.body);
             shareOpponentCard(card);
         });
+        stompClient.subscribe('/user/queue/tapCard', function (card) {
+            var card = JSON.parse(card.body);
+            tapCard(card);
+        });
     });
 }
 
@@ -199,7 +203,7 @@ function drop(ev) {
         'src="' + card_src + '" ' +
         'onclick="bigDisplay(\'' + card_src + '\')" ' +
             //'onmouseup="removeBigDisplay()" ' +
-        'ondblclick ="tap(\'' + card_src + '\')"' +
+        'ondblclick ="tap(\'' + card_id + '\')"' +
             //'onkeypress ="tap(event)"' +
             //'onkeypress ="tap(event)"' +
         'draggable="true" ' +
@@ -225,20 +229,27 @@ function bigDisplay(src) {
 }
 
 
-function tap(src) {
-    //jQuery.noConflict();
-    //jQuery('#' + id).rotate(90);
-    //jQuery('#'+id).rotateLeft([angle=90]);
-    //$('#'+id).toggle(function() {
-    //    $(this).rotate({ endDeg:180, persist:true });
-    //}    );
-    //$('#'+id).click(function() {
-    //    $(this).rotate({ startDeg:-25, endDeg:0, easing:'ease-in' });
-    //});
+function tap(id) {
 
+    if ($('#' + id).hasClass('tap')) {
+        $('#' + id).removeClass('tap');
 
-    var newSrc = src.substring(0, src.length - 4) + '_t.jpg';
-    $('img[src="' + src + '"]').attr('src', newSrc);
+        stompClient.send("/app/tapCard", {},
+            JSON.stringify(
+                {
+                    'id': $('#' + id).attr('id'),
+                    'tap': 'no'
+                }));
+    }
+    else {
+        $('#' + id).addClass('tap');
+        stompClient.send("/app/tapCard", {},
+            JSON.stringify(
+                {
+                    'id': $('#' + id).attr('id'),
+                    'tap': 'yes'
+                }));
+    }
 
 }
 
@@ -261,6 +272,15 @@ function shareOpponentCard(card) {
         .css({
             "position": "absolute", "left": card.xPosition, "top": card.yPosition
         });
+}
+
+function tapCard(card) {
+
+    if ((card.tap).localeCompare('yes') == 0) {
+        $('#opBF #' + card.id).addClass('tap');
+    } else {
+        $('#opBF #' + card.id).removeClass('tap');
+    }
 }
 
 function showDeck() {

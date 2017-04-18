@@ -87,6 +87,12 @@ img {
     height: 100px;
 }
 
+img.tap{
+    width: 90px;
+    height: 100px;
+    -webkit-transform: rotate(90deg);
+}
+
 img .big-display{
     width: 170px;
     height: 230px;

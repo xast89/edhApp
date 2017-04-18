@@ -74,4 +74,21 @@ public class CardController {
             }
         }
     }
+
+    @MessageMapping("/tapCard")
+    public void tapCard(@Payload Card message, SimpMessageHeaderAccessor headerAccessor )
+    {
+
+        for (Map.Entry<String, String> stringStringEntry : webSocketConfig.userSessionIdMap.entrySet())
+        {
+            if(!stringStringEntry.getValue().equals(headerAccessor.getSessionId()))
+            {
+                SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor
+                        .create(SimpMessageType.MESSAGE);
+                ha.setLeaveMutable(true);
+                ha.setSessionId(stringStringEntry.getValue());
+                messagingTemplate.convertAndSendToUser(stringStringEntry.getValue(), "/queue/tapCard", message, ha.getMessageHeaders());
+            }
+        }
+    }
 }
