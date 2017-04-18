@@ -80,8 +80,8 @@ function drawCardOnDiv(card, div) {
         'src="' + card.src + '" ' +
         'draggable="true" ' +
         'ondragstart="drag(event)" ' +
-        'onclick="bigDisplay(\'' + card.src + '\')" ' +
-        'title="' + card.skill + '" />').appendTo(div);
+        'onclick="bigDisplay(\'' + card.src + '\')"/>')
+        .appendTo(div);
 }
 function startGame_onPage() {
 
@@ -92,8 +92,7 @@ function startGame_onPage() {
         'src="' + commander.src + '" ' +
         'draggable="true" ' +
         'ondragstart="drag(event)" ' +
-        'onclick="bigDisplay(\'' + commander.src + '\')" ' +
-        'title="' + commander.skill + '" />')
+        'onclick="bigDisplay(\'' + commander.src + '\')"/>')
         .appendTo("#commandZone")
         .css({"position": "absolute", "margin-left": "auto", "margin-right": "auto"});
 
@@ -169,7 +168,6 @@ function moveCardFromSourceToDestination(sourceDiv, destinationDiv, card_id) {
 function drag(ev) {
     ev.dataTransfer.setData("card", ev.target.id);
     ev.dataTransfer.setData("src", ev.target.src);
-    ev.dataTransfer.setData("skill", ev.target.title);
     ev.dataTransfer.setData("div", ev.target.parentNode.id);
     ev.dataTransfer.setData("offsetLeft", ev.clientX - ev.target.getBoundingClientRect().left);
     ev.dataTransfer.setData("offsetTop", ev.clientY - ev.target.getBoundingClientRect().top);
@@ -180,7 +178,6 @@ function drop(ev) {
     var card_id = ev.dataTransfer.getData("card");
     var card_div = ev.dataTransfer.getData("div");
     var card_src = ev.dataTransfer.getData("src");
-    var card_skill = ev.dataTransfer.getData("skill");
 
     var xPosition = getLeftOffset(ev)
     var yPosition = getTopOffset(ev)
@@ -202,10 +199,7 @@ function drop(ev) {
     $('<img id="' + card_id + '" ' +
         'src="' + card_src + '" ' +
         'onclick="bigDisplay(\'' + card_src + '\')" ' +
-            //'onmouseup="removeBigDisplay()" ' +
         'ondblclick ="tap(\'' + card_id + '\')"' +
-            //'onkeypress ="tap(event)"' +
-            //'onkeypress ="tap(event)"' +
         'draggable="true" ' +
         'ondragstart="drag(event)"/>')
     //.on('mouseover', bigDisplay(card_src))

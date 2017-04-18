@@ -65,20 +65,16 @@ body {
     height: 120px;
     border: 2px solid;
     float: left;
-    /*padding-left: 50px;*/
     margin-left: 50px;
 }
 
 .right {
     float: right;
-    /*width: 100px;*/
-    /*height: 100px;*/
     background: rgba(107, 116, 125, 0.76);
 }
 
 .left {
     float: left;
-    /*height: 100px;*/
     background: #307237
 }
 
@@ -88,8 +84,6 @@ img {
 }
 
 img.tap{
-    width: 90px;
-    height: 100px;
     -webkit-transform: rotate(90deg);
 }
 
@@ -101,12 +95,3 @@ img .big-display{
 div {
     position: relative;
 }
-
-/*TOOLTIP*/
-
-/*img[title]:hover:after {*/
-    /*content: attr(title);*/
-    /*padding: 10px;*/
-    /*background-color: white;*/
-    /*position: absolute;*/
-/*}*/

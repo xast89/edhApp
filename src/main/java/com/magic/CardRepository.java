@@ -32,10 +32,11 @@ public class CardRepository
 
         List<Card> dereviDeckTemp = new ArrayList<>();
 
-        dereviDeckTemp.add(createCard("Forest", "pca_151", "cards/green/forest.jpg"));
-        dereviDeckTemp.add(createCard("Island", "pca_137", "cards/blue/island.jpg"));
-        dereviDeckTemp.add(createCard("Plains", "pca_132", "cards/white/plains.jpg"));
-        dereviDeckTemp.add(createCard("Rancor", "pca_76", "cards/green/rancor.jpg"));
+        dereviDeckTemp.add(createCard("Forest", "forest", "cards/green/forest.jpg"));
+        dereviDeckTemp.add(createCard("Island", "island", "cards/blue/island.jpg"));
+        dereviDeckTemp.add(createCard("Plains", "plains", "cards/white/plains.jpg"));
+        dereviDeckTemp.add(createCard("Plains", "plains_2", "cards/white/plains.jpg"));
+        dereviDeckTemp.add(createCard("Rancor", "rancor", "cards/green/rancor.jpg"));
         // dereviDeckTemp.add(createCard("Fool's Demise", "c14_111", "http://magiccards.info/scans/en/c14/111.jpg"));
         // dereviDeckTemp.add(createCard("Knight of New Alara", "arb_70", "http://magiccards.info/scans/en/arb/70.jpg"));
         // dereviDeckTemp.add(createCard("Civic Saber ", "rtr_227", "http://magiccards.info/scans/en/rtr/227.jpg"));
@@ -137,8 +138,8 @@ public class CardRepository
 
     }
 
-    private Card createCard(String name, String number, String src)
+    private Card createCard(String name, String id, String src)
     {
-        return new Card(name, number, src);
+        return new Card(name, id, src);
     }
 }
