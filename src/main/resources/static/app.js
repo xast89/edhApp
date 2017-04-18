@@ -97,7 +97,7 @@ function startGame_onPage() {
         .css({"position": "absolute", "margin-left": "auto", "margin-right": "auto"});
 
     var step;
-    for (step = 1; step < 2; step++) {
+    for (step = 1; step < 8; step++) {
         var card = deckList.pop();
         handList.push(card);
 
