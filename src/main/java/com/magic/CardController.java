@@ -42,7 +42,8 @@ public class CardController {
 
     @MessageMapping("/startGame")
     public void startGame(SimpMessageHeaderAccessor headerAccessor) {
-        List<Card> dereviDeck = cardRepository.getDereviDeck();
+//        List<Card> dereviDeck = cardRepository.getDereviDeck();
+        List<Card> dereviDeck = cardRepository.getXenagosDeck();
         Card commander = dereviDeck.remove(getCommanderCard(dereviDeck));
         Collections.shuffle(dereviDeck);
         dereviDeck.add(dereviDeck.size(), commander);

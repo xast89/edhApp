@@ -15,10 +15,12 @@ public class CardRepository
     private static final String NEW_LINE = "&#013;";
 
     private List<Card> dereviDeck;
+    private List<Card> xenagosDeck;
 
     public CardRepository()
     {
         this.dereviDeck = createDereviDeck();
+        this.xenagosDeck = createXenagosDeck();
 
     }
 
@@ -26,6 +28,8 @@ public class CardRepository
     {
         return dereviDeck;
     }
+
+    public List<Card> getXenagosDeck() { return xenagosDeck;}
 
     private List<Card> createDereviDeck()
     {
@@ -136,6 +140,115 @@ public class CardRepository
 
         return dereviDeckTemp;
 
+    }
+
+    private List<Card> createXenagosDeck()
+    {
+        List<Card> xenagosDeckTemp = new ArrayList<>();
+
+        xenagosDeckTemp.add(createCard("Forest", "forest", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_2", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_3", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_4", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_5", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_6", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_7", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_8", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_9", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_10", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_11", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_12", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_13", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_14", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Forest", "forest_15", "cards/land/forest.jpg"));
+        xenagosDeckTemp.add(createCard("Mountain", "mountain", "cards/land/mountain.jpg"));
+        xenagosDeckTemp.add(createCard("Mountain", "mountain_2", "cards/land/mountain.jpg"));
+        xenagosDeckTemp.add(createCard("Mountain", "mountain_3", "cards/land/mountain.jpg"));
+        xenagosDeckTemp.add(createCard("Mountain", "mountain_4", "cards/land/mountain.jpg"));
+        xenagosDeckTemp.add(createCard("Mountain", "mountain_5", "cards/land/mountain.jpg"));
+        xenagosDeckTemp.add(createCard("Mountain", "mountain_6", "cards/land/mountain.jpg"));
+        xenagosDeckTemp.add(createCard("Mountain", "mountain_7", "cards/land/mountain.jpg"));
+        xenagosDeckTemp.add(createCard("Mountain", "mountain_8", "cards/land/mountain.jpg"));
+        xenagosDeckTemp.add(createCard("Mountain", "mountain_9", "cards/land/mountain.jpg"));
+        xenagosDeckTemp.add(createCard("Mountain", "mountain_10", "cards/land/mountain.jpg"));
+        xenagosDeckTemp.add(createCard("Mountain", "mountain_11", "cards/land/mountain.jpg"));
+        xenagosDeckTemp.add(createCard("Mountain", "mountain_12", "cards/land/mountain.jpg"));
+        xenagosDeckTemp.add(createCard("Nissa's Pilgrimage", "nissasPilgrimage", "cards/green/sorcery/nissasPilgrimage.jpg"));
+        xenagosDeckTemp.add(createCard("Command Tower", "commandTower", "cards/land/commandTower.jpg"));
+        xenagosDeckTemp.add(createCard("Titanic Growth", "titanicGrowth", "cards/green/instant/titanicGrowth.jpg"));
+        xenagosDeckTemp.add(createCard("Fog", "fog", "cards/green/instant/fog.jpg"));
+        xenagosDeckTemp.add(createCard("Ancient Grudge", "ancientGrudge", "cards/red/instant/ancientGrudge.jpg"));
+        xenagosDeckTemp.add(createCard("Signal the Clans", "signalTheClans", "cards/multi/instant/signalTheClans.jpg"));
+        xenagosDeckTemp.add(createCard("Berser", "berserk", "cards/green/instant/berserk.jpg"));
+        xenagosDeckTemp.add(createCard("Beast Within", "beastWithin", "cards/green/instant/beastWithin.jpg"));
+        xenagosDeckTemp.add(createCard("Invigorated Rampage", "invigoratedRampage", "cards/red/instant/invigoratedRampage.jpg"));
+        xenagosDeckTemp.add(createCard("Heroic Intervention", "heroicIntervention", "cards/green/instant/heroicIntervention.jpg"));
+        xenagosDeckTemp.add(createCard("Strionic Resonator", "strionicResonator", "cards/colorless/artifact/strionicResonator.jpg"));
+        xenagosDeckTemp.add(createCard("Hammer of Purphoros", "hammerOfPurphoros", "cards/red/artifact/hammerOfPurphoros.jpg"));
+        xenagosDeckTemp.add(createCard("Emerald Medallion", "emeraldMedallion", "cards/colorless/artifact/emeraldMedallion.jpg"));
+        xenagosDeckTemp.add(createCard("Sol Ring", "solRing", "cards/colorless/artifact/solRing.jpg"));
+        xenagosDeckTemp.add(createCard("Mage Slayer", "mageSlayer", "cards/multi/artifact/mageSlayer.jpg"));
+        xenagosDeckTemp.add(createCard("Terastodon", "terastodon", "cards/green/creature/terastodon.jpg"));
+        xenagosDeckTemp.add(createCard("Rampaging Baloths", "rampagingBaloths", "cards/green/creature/rampagingBaloths.jpg"));
+        xenagosDeckTemp.add(createCard("Malignus", "malignus", "cards/red/creature/malignus.jpg"));
+        xenagosDeckTemp.add(createCard("Realm Seekers", "realmSeekers", "cards/green/creature/realmSeekers.jpg"));
+        xenagosDeckTemp.add(createCard("Spellbreaker Behemoth", "spellbreakerBehemoth", "cards/multi/creature/spellbreakerBehemoth.jpg"));
+        xenagosDeckTemp.add(createCard("Nylea, God of the Hunt", "nyleaGodOfTheHunt", "cards/green/creature/nyleaGodOfTheHunt.jpg"));
+        xenagosDeckTemp.add(createCard("Caller of the Pack", "callerOfThePack", "cards/green/creature/callerOfThePack.jpg"));
+        xenagosDeckTemp.add(createCard("Thunderfoot Baloth", "thunderfootBaloth", "cards/green/creature/thunderfootBaloth.jpg"));
+        xenagosDeckTemp.add(createCard("Sakura-Tribe Elder", "sakura-TribeElder", "cards/green/creature/sakura-TribeElder.jpg"));
+        xenagosDeckTemp.add(createCard("Oracle of Mul Daya", "oracleOfMulDaya", "cards/green/creature/oracleOfMulDaya.jpg"));
+        xenagosDeckTemp.add(createCard("Selvala, Heart of the Wilds", "selvalaHeartOfTheWilds", "cards/green/creature/selvalaHeartOfTheWilds.jpg"));
+        xenagosDeckTemp.add(createCard("Inferno Titan", "infernoTitan", "cards/red/creature/infernoTitan.jpg"));
+        xenagosDeckTemp.add(createCard("Deus of Calamity", "deusOfCalamity", "cards/multi/creature/deusOfCalamity.jpg"));
+        xenagosDeckTemp.add(createCard("Hydra Omnivore", "hydraOmnivore", "cards/green/creature/hydraOmnivore.jpg"));
+        xenagosDeckTemp.add(createCard("Pathbreaker Ibex", "pathbreakerIbex", "cards/green/creature/pathbreakerIbex.jpg"));
+        xenagosDeckTemp.add(createCard("Reclamation Sage", "reclamationSage", "cards/green/creature/reclamationSage.jpg"));
+        xenagosDeckTemp.add(createCard("Dragonlord Atarka", "dragonlordAtarka", "cards/multi/creature/dragonlordAtarka.jpg"));
+        xenagosDeckTemp.add(createCard("Ruric Thar, the Unbowed", "ruricThartheUnbowed", "cards/multi/creature/ruricThartheUnbowed.jpg"));
+        xenagosDeckTemp.add(createCard("Zendikar Incarnate", "zendikarIncarnate", "cards/multi/creature/zendikarIncarnate.jpg"));
+        xenagosDeckTemp.add(createCard("Mina and Denn, Wildborn", "minaAndDennWildborn", "cards/multi/creature/minaAndDennWildborn.jpg"));
+        xenagosDeckTemp.add(createCard("Radha, Heir to Keld", "radhaHeirToKeld", "cards/multi/creature/radhaHeirToKeld.jpg"));
+        xenagosDeckTemp.add(createCard("Grull Ragebeast", "grullRagebeast", "cards/multi/creature/grullRagebeast.jpg"));
+        xenagosDeckTemp.add(createCard("Soulbright Flamekin", "soulbrightFlamekin", "cards/red/creature/soulbrightFlamekin.jpg"));
+        xenagosDeckTemp.add(createCard("Burnished Hart", "burnishedHart", "cards/colorless/creature/burnishedHart.jpg"));
+        xenagosDeckTemp.add(createCard("Soul of  The Harvest", "soulOfTheHarvest", "cards/green/creature/soulOfTheHarvest.jpg"));
+        xenagosDeckTemp.add(createCard("Siege Behemoth", "siegeBehemoth", "cards/green/creature/siegeBehemoth.jpg"));
+        xenagosDeckTemp.add(createCard("Birds Of Paradise", "birdsOfParadise", "cards/green/creature/birdsOfParadise.jpg"));
+        xenagosDeckTemp.add(createCard("Llanowar Elves", "llanowarElves", "cards/green/creature/llanowarElves.jpg"));
+        xenagosDeckTemp.add(createCard("Wood Elves", "woodElves", "cards/green/creature/woodElves.jpg"));
+        xenagosDeckTemp.add(createCard("Harmonize", "harmonize", "cards/green/sorcery/harmonize.jpg"));
+        xenagosDeckTemp.add(createCard("Overwhelming Stampede", "overwhelmingStampede", "cards/green/sorcery/overwhelmingStampede.jpg"));
+        xenagosDeckTemp.add(createCard("Green Sun's Zenith", "greenSunsZenith", "cards/green/sorcery/greenSunsZenith.jpg"));
+        xenagosDeckTemp.add(createCard("Eldritch Evolution", "eldritchEvolution", "cards/green/sorcery/eldritchEvolution.jpg"));
+        xenagosDeckTemp.add(createCard("Cultivate", "cultivate", "cards/green/sorcery/cultivate.jpg"));
+        xenagosDeckTemp.add(createCard("Hunter's Prowess", "huntersProwess", "cards/green/sorcery/huntersProwess.jpg"));
+        xenagosDeckTemp.add(createCard("Life's Legacy", "lifesLegacy", "cards/green/sorcery/lifesLegacy.jpg"));
+        xenagosDeckTemp.add(createCard("Selvala's Stampede", "selvalasStampede", "cards/green/sorcery/selvalasStampede.jpg"));
+        xenagosDeckTemp.add(createCard("Selvala's Stampede", "selvalasStampede", "cards/green/sorcery/selvalasStampede.jpg"));
+        xenagosDeckTemp.add(createCard("Explosive Vegetation", "explosiveVegetation", "cards/green/sorcery/explosiveVegetation.jpg"));
+        xenagosDeckTemp.add(createCard("See the Unwritten", "seetheUnwritten", "cards/green/sorcery/seetheUnwritten.jpg"));
+        xenagosDeckTemp.add(createCard("Praetor's Counsel", "praetorsCounsel", "cards/green/sorcery/praetorsCounsel.jpg"));
+        xenagosDeckTemp.add(createCard("Chandra's Ignition", "chandrasIgnition", "cards/red/sorcery/chandrasIgnition.jpg"));
+        xenagosDeckTemp.add(createCard("Seize The Day", "seizeTheDay", "cards/red/sorcery/seizeTheDay.jpg"));
+        xenagosDeckTemp.add(createCard("Decimate", "decimate", "cards/multi/sorcery/decimate.jpg"));
+        xenagosDeckTemp.add(createCard("Rugged Highlands", "ruggedHighlands", "cards/land/ruggedHighlands.jpg"));
+        xenagosDeckTemp.add(createCard("Reliquary Tower", "reliquaryTower", "cards/land/reliquaryTower.jpg"));
+        xenagosDeckTemp.add(createCard("Kazandu Refuge", "kazanduRefuge", "cards/land/kazanduRefuge.jpg"));
+        xenagosDeckTemp.add(createCard("Rogue's Passage", "roguesPassage", "cards/land/roguesPassage.jpg"));
+        xenagosDeckTemp.add(createCard("Blighted Woodland", "blightedWoodland", "cards/land/blightedWoodland.jpg"));
+        xenagosDeckTemp.add(createCard("Timber Gorge", "timberGorge", "cards/land/timberGorge.jpg"));
+        xenagosDeckTemp.add(createCard("Skarrg, the Rage Pits", "skarrgTheRagePits", "cards/land/skarrgTheRagePits.jpg"));
+        xenagosDeckTemp.add(createCard("Cinder Glade", "cinderGlade", "cards/land/cinderGlade.jpg"));
+        xenagosDeckTemp.add(createCard("Evolutionary Leap", "evolutionaryLeap", "cards/green/enchantment/evolutionaryLeap.jpg"));
+        xenagosDeckTemp.add(createCard("Blood Mist", "bloodMist", "cards/red/enchantment/bloodMist.jpg"));
+        xenagosDeckTemp.add(createCard("Berserker's Onslaught", "berserkersOnslaught", "cards/red/enchantment/berserkersOnslaught.jpg"));
+        xenagosDeckTemp.add(createCard("Abundance", "abundance", "cards/green/enchantment/abundance.jpg"));
+        xenagosDeckTemp.add(createCard("Archetype of Aggression", "archetypeOfAggression", "cards/red/creature/archetypeOfAggression.jpg"));
+        xenagosDeckTemp.add(createCard("Garruk, Caller  of Beasts", "garrukCallerofBeasts", "cards/green/planeswalker/garrukCallerofBeasts.jpg"));
+        xenagosDeckTemp.add(createCard("Xenagos, God of Revels", "xenagosGodOfRevels", "cards/multi/creature/xenagosGodOfRevels.jpg"));
+
+        return xenagosDeckTemp;
     }
 
     private Card createCard(String name, String id, String src)
