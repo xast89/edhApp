@@ -17,7 +17,8 @@ import java.util.Map;
  * Created by pawel on 05.03.17.
  */
 @Controller
-public class CardController {
+public class CardController
+{
 
     @Autowired
     private CardRepository cardRepository;
@@ -27,12 +28,16 @@ public class CardController {
     @Autowired
     public SimpMessageSendingOperations messagingTemplate;
 
+    private List<Card> deck;
+
     @MessageMapping("/card")
     @SendTo("/topic/card")
-    public Card getCard() {
+    public Card getCard()
+    {
         List<Card> cardList = cardRepository.getDereviDeck();
 
-        if (cardList.size() != 0) {
+        if (cardList.size() != 0)
+        {
             Card card = cardList.get((int) (Math.random() * cardList.size()));
             return card;
         }
@@ -41,31 +46,40 @@ public class CardController {
     }
 
     @MessageMapping("/startGame")
-    public void startGame(SimpMessageHeaderAccessor headerAccessor) {
-//        List<Card> dereviDeck = cardRepository.getDereviDeck();
-        List<Card> dereviDeck = cardRepository.getXenagosDeck();
-        Card commander = dereviDeck.remove(getCommanderCard(dereviDeck));
-        Collections.shuffle(dereviDeck);
-        dereviDeck.add(dereviDeck.size(), commander);
+    public void startGame(Information information, SimpMessageHeaderAccessor headerAccessor)
+    {
+        if (information.getCommander().equals("Derevi"))
+        {
+            deck = cardRepository.getDereviDeck();
+
+        }
+        else
+        {
+            deck = cardRepository.getXenagosDeck();
+        }
+        Card commander = deck.remove(getCommanderCard(deck));
+        Collections.shuffle(deck);
+        deck.add(deck.size(), commander);
 
         SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor
                 .create(SimpMessageType.MESSAGE);
         ha.setSessionId(headerAccessor.getSessionId());
         ha.setLeaveMutable(true);
-        messagingTemplate.convertAndSendToUser(headerAccessor.getSessionId(), "/queue/startGame", dereviDeck, ha.getMessageHeaders());
+        messagingTemplate.convertAndSendToUser(headerAccessor.getSessionId(), "/queue/startGame", deck, ha.getMessageHeaders());
     }
 
-    private int getCommanderCard(List<Card> dereviDeck) {
-        return dereviDeck.size()-1;
+    private int getCommanderCard(List<Card> dereviDeck)
+    {
+        return dereviDeck.size() - 1;
     }
 
     @MessageMapping("/shareCard")
-    public void shareCard(@Payload Card message, SimpMessageHeaderAccessor headerAccessor )
+    public void shareCard(@Payload Card message, SimpMessageHeaderAccessor headerAccessor)
     {
 
         for (Map.Entry<String, String> stringStringEntry : webSocketConfig.userSessionIdMap.entrySet())
         {
-            if(!stringStringEntry.getValue().equals(headerAccessor.getSessionId()))
+            if (!stringStringEntry.getValue().equals(headerAccessor.getSessionId()))
             {
                 SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor
                         .create(SimpMessageType.MESSAGE);
@@ -77,12 +91,12 @@ public class CardController {
     }
 
     @MessageMapping("/tapCard")
-    public void tapCard(@Payload Card message, SimpMessageHeaderAccessor headerAccessor )
+    public void tapCard(@Payload Card message, SimpMessageHeaderAccessor headerAccessor)
     {
 
         for (Map.Entry<String, String> stringStringEntry : webSocketConfig.userSessionIdMap.entrySet())
         {
-            if(!stringStringEntry.getValue().equals(headerAccessor.getSessionId()))
+            if (!stringStringEntry.getValue().equals(headerAccessor.getSessionId()))
             {
                 SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor
                         .create(SimpMessageType.MESSAGE);

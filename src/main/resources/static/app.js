@@ -68,7 +68,7 @@ function setStartButton(value) {
 }
 function startGame() {
     setStartButton(true);
-    stompClient.send("/app/startGame", {}, {});
+    stompClient.send("/app/startGame", {}, JSON.stringify({'commander': $( "#commander option:selected" ).text()}));
 }
 
 function personal_onPage(message) {
