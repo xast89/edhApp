@@ -45,6 +45,10 @@ function connect() {
             var card = JSON.parse(card.body);
             tapCard(card);
         });
+        stompClient.subscribe('/user/queue/removeCard', function (card) {
+            var card = JSON.parse(card.body);
+            removeCard(card);
+        });
     });
 }
 
@@ -165,10 +169,16 @@ function moveCardFromSourceToDestination(sourceDiv, destinationDiv, card_id) {
     // }
 }
 
+function removeCard(card)
+{
+    $('#opBF #' + card.id).remove();
+
+}
+
 function drag(ev) {
     ev.dataTransfer.setData("card", ev.target.id);
     ev.dataTransfer.setData("src", ev.target.src);
-    ev.dataTransfer.setData("div", ev.target.parentNode.id);
+    ev.dataTransfer.setData("sourceDiv", ev.target.parentNode.id);
     ev.dataTransfer.setData("offsetLeft", ev.clientX - ev.target.getBoundingClientRect().left);
     ev.dataTransfer.setData("offsetTop", ev.clientY - ev.target.getBoundingClientRect().top);
 }
@@ -176,44 +186,74 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     var card_id = ev.dataTransfer.getData("card");
-    var card_div = ev.dataTransfer.getData("div");
     var card_src = ev.dataTransfer.getData("src");
+    var card_sourceDiv = ev.dataTransfer.getData("sourceDiv");
 
     var xPosition = getLeftOffset(ev)
     var yPosition = getTopOffset(ev)
 
-    stompClient.send("/app/shareCard", {},
-        JSON.stringify(
-            {
-                'id': $('#' + card_id).attr('id'),
-                'src': $('#' + card_id).attr('src'),
-                'skill': $('#' + card_id).attr('title'),
-                'xPosition': xPosition,
-                'yPosition': yPosition
-                //'destination': ev.target.id
-            }));
+    if((ev.target.id) == "myBF")
+    {
+        stompClient.send("/app/shareCard", {},
+            JSON.stringify(
+                {
+                    'id': $('#' + card_id).attr('id'),
+                    'src': $('#' + card_id).attr('src'),
+                    'skill': $('#' + card_id).attr('title'),
+                    'xPosition': xPosition,
+                    'yPosition': yPosition,
+                    'sourceDiv': card_sourceDiv,
+                    'destinationDiv' : ev.target.id
+                }));
 
-    if ($('#myBF #' + card_id).length) {
-        $('#myBF #' + card_id).remove();
-    }
-    $('<img id="' + card_id + '" ' +
-        'src="' + card_src + '" ' +
-        'onclick="bigDisplay(\'' + card_src + '\')" ' +
-        'ondblclick ="tap(\'' + card_id + '\')"' +
-        'draggable="true" ' +
-        'ondragstart="drag(event)"/>')
-    //.on('mouseover', bigDisplay(card_src))
-        .appendTo('#myBF')
-        .css({
-            "position": "absolute", "left": xPosition,
-            "top": yPosition
-        })
+        if ($('#myBF #' + card_id).length) {
+            $('#myBF #' + card_id).remove();
+        }
+        $('<img id="' + card_id + '" ' +
+            'src="' + card_src + '" ' +
+            'onclick="bigDisplay(\'' + card_src + '\')" ' +
+            'ondblclick ="tap(\'' + card_id + '\')"' +
+            'draggable="true" ' +
+            'ondragstart="drag(event)"/>')
+        //.on('mouseover', bigDisplay(card_src))
+            .appendTo('#myBF')
+            .css({
+                "position": "absolute", "left": xPosition,
+                "top": yPosition
+            })
         //.on('mouseover', bigDisplay(card_src) )
         //.on('mouseout', removeBigDisplay() )
         //.on('onmouseout', removeBigDisplay() )
-    ;
+        ;
+    }
+    if( ev.target.id == 'myHand')
+    {
+        //TODO: wyrzucic to na zewnatrz ifa?
+        if ($('#myBF #' + card_id).length) {
+            $('#myBF #' + card_id).remove();
+        }
 
-    moveCardFromSourceToDestination(card_div, ev.target.id, card_id);
+        $('<img id="' + card_id + '" ' +
+            'src="' + card_src + '" ' +
+            'draggable="true" ' +
+            'ondragstart="drag(event)" ' +
+            'onclick="bigDisplay(\'' + card_src + '\')"/>')
+            .appendTo('#myHand');
+
+        stompClient.send("/app/removeCard", {},
+            JSON.stringify(
+                {
+                    'id': $('#' + card_id).attr('id'),
+                    'sourceDiv': card_sourceDiv,
+                    'destinationDiv' : ev.target.id
+                }));
+
+    }
+
+
+
+
+    moveCardFromSourceToDestination(card_sourceDiv, ev.target.id, card_id);
 }
 
 function bigDisplay(src) {

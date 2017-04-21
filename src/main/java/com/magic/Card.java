@@ -12,7 +12,8 @@ public class Card
     private String xPosition;
     private String yPosition;
     private String tap;
-    private String destination;
+    private String sourceDiv;
+    private String destinationDiv;
 
     public Card(String name, String id, String src)
     {
@@ -76,14 +77,14 @@ public class Card
         this.yPosition = yPosition;
     }
 
-    public String getDestination()
+    public String getDestinationDiv()
     {
-        return destination;
+        return destinationDiv;
     }
 
-    public void setDestination(String destination)
+    public void setDestinationDiv(String destinationDiv)
     {
-        this.destination = destination;
+        this.destinationDiv = destinationDiv;
     }
 
     public String getTap()
@@ -94,6 +95,14 @@ public class Card
     public void setTap(String tap)
     {
         this.tap = tap;
+    }
+
+    public String getSourceDiv() {
+        return sourceDiv;
+    }
+
+    public void setSourceDiv(String sourceDiv) {
+        this.sourceDiv = sourceDiv;
     }
 
     @Override

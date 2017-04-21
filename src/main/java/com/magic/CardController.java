@@ -84,8 +84,25 @@ public class CardController
                 SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor
                         .create(SimpMessageType.MESSAGE);
                 ha.setSessionId(stringStringEntry.getValue());
-                ha.setLeaveMutable(true);
+                ha.setLeaveMutable(true) ;
                 messagingTemplate.convertAndSendToUser(stringStringEntry.getValue(), "/queue/shareOpponentCard", message, ha.getMessageHeaders());
+            }
+        }
+    }
+
+    @MessageMapping("/removeCard")
+    public void removeCard(@Payload Card message, SimpMessageHeaderAccessor headerAccessor)
+    {
+
+        for (Map.Entry<String, String> stringStringEntry : webSocketConfig.userSessionIdMap.entrySet())
+        {
+            if (!stringStringEntry.getValue().equals(headerAccessor.getSessionId()))
+            {
+                SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor
+                        .create(SimpMessageType.MESSAGE);
+                ha.setLeaveMutable(true);
+                ha.setSessionId(stringStringEntry.getValue());
+                messagingTemplate.convertAndSendToUser(stringStringEntry.getValue(), "/queue/removeCard", message, ha.getMessageHeaders());
             }
         }
     }
