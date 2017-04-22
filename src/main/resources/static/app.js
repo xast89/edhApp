@@ -72,7 +72,7 @@ function setStartButton(value) {
 }
 function startGame() {
     setStartButton(true);
-    stompClient.send("/app/startGame", {}, JSON.stringify({'commander': $( "#commander option:selected" ).text()}));
+    stompClient.send("/app/startGame", {}, JSON.stringify({'commander': $("#commander option:selected").text()}));
 }
 
 function personal_onPage(message) {
@@ -132,7 +132,7 @@ function getTopOffset(ev) {
 }
 
 function moveCardFromSourceToDestination(sourceDiv, destinationDiv, card_id) {
-    if (sourceDiv == "myHand") {
+    if (sourceDiv == "myHand" && destinationDiv != "myHand") {
         $('#myHand #' + card_id).remove();
 
         var step;
@@ -169,8 +169,7 @@ function moveCardFromSourceToDestination(sourceDiv, destinationDiv, card_id) {
     // }
 }
 
-function removeCard(card)
-{
+function removeCard(card) {
     $('#opBF #' + card.id).remove();
 
 }
@@ -192,8 +191,7 @@ function drop(ev) {
     var xPosition = getLeftOffset(ev)
     var yPosition = getTopOffset(ev)
 
-    if((ev.target.id) == "myBF")
-    {
+    if ((ev.target.id) == "myBF") {
         stompClient.send("/app/shareCard", {},
             JSON.stringify(
                 {
@@ -203,7 +201,7 @@ function drop(ev) {
                     'xPosition': xPosition,
                     'yPosition': yPosition,
                     'sourceDiv': card_sourceDiv,
-                    'destinationDiv' : ev.target.id
+                    'destinationDiv': ev.target.id
                 }));
 
         if ($('#myBF #' + card_id).length) {
@@ -226,8 +224,7 @@ function drop(ev) {
         //.on('onmouseout', removeBigDisplay() )
         ;
     }
-    if( ev.target.id == 'myHand')
-    {
+    if (ev.target.id == 'myHand' && card_sourceDiv != "myHand") {
         //TODO: wyrzucic to na zewnatrz ifa?
         if ($('#myBF #' + card_id).length) {
             $('#myBF #' + card_id).remove();
@@ -245,12 +242,10 @@ function drop(ev) {
                 {
                     'id': $('#' + card_id).attr('id'),
                     'sourceDiv': card_sourceDiv,
-                    'destinationDiv' : ev.target.id
+                    'destinationDiv': ev.target.id
                 }));
 
     }
-
-
 
 
     moveCardFromSourceToDestination(card_sourceDiv, ev.target.id, card_id);
@@ -301,7 +296,8 @@ function shareOpponentCard(card) {
         'src="' + card.src + '" ' +
         'draggable="true" ' +
         'ondragstart="drag(event)" ' +
-        'onmouseenter="bigDisplay(\'' + card.src + '\')" />')
+        'onmouseenter="bigDisplay(\'' + card.src + '\')" + ' +
+        'onmouseleave="removeBigDisplay()" />')
         .appendTo('#opBF')
         .css({
             "position": "absolute", "left": card.xPosition, "top": card.yPosition
@@ -318,7 +314,35 @@ function tapCard(card) {
 }
 
 function showDeck() {
-    alert(deckList[0].name);
+    $('#deck p select').remove();
+    $('#deck p').append('<select id="card">');
+    deckList.forEach(function (card) {
+        $('#deck p select').append('<option>' + card.id + '</option>')
+    });
+}
+
+function ontoYourHand() {
+
+    var selectedCard = $("#card option:selected").text();
+
+    var step;
+    for (step = 0; step < deckList.length; step++) {
+        if (deckList[step].id == selectedCard) {
+            var card2 = deckList.splice(step, 1);
+            var card = card2[0];
+            // battleFieldList.add(card);
+
+
+            $('<img id="' + card.id + '" ' +
+                'src="' + card.src + '" ' +
+                'draggable="true" ' +
+                'ondragstart="drag(event)" ' +
+                'onclick="bigDisplay(\'' + card.src + '\')"/>')
+                .appendTo('#myHand');
+        }
+    }
+    $('#deck p select').remove();
+
 }
 
 $(function () {
