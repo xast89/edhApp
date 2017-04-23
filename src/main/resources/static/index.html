@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello WebSocket</title>
+    <title>MAGIC WebSocket</title>
     <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/main.css" rel="stylesheet">
     <script src="/webjars/jquery/jquery.min.js"></script>
@@ -44,21 +44,26 @@
     <div class="inline-next space"></div>
 
     <div class="inline-next">
-        <div id="commandZone" class="cardPlace box2"></div>
+        <div id="commandZone" class="commanderCardPlace box2"></div>
         <div id="deck" class="cardPlace box2" ondrop="drop(event)" ondragover="allowDrop(event)">
-            <button onclick="showDeck()">Cards in deck</button>
+            Library
+            <button onclick="showDeck()">Search your deck</button>
             <p></p>
             <button onclick="ontoYourHand()">put card onto hand</button>
         </div>
-        <div id="graveyard" class="cardPlace box2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-        <div id="exile" class="cardPlace box2"></div>
+        <div id="graveyard" class="cardPlace box2" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <p>Graveyard</p>
+        </div>
+        <div id="exile" class="cardPlace box2">
+            <p>Exile</p>
+        </div>
     </div>
 
     <div class="inline-next space"></div>
 
     <div class="inline-next">
-        <div id="myBF" class="battle-field left box2" ondrop="drop(event)" ondragover="allowDrop(event)">Moj BF</div>
-        <div id="opBF" class="battle-field right box2" onmousedown="return false">Opponent BF</div>
+        <div id="myBF" class="battle-field left box2" ondrop="drop(event)" ondragover="allowDrop(event)">My BF</div>
+        <div id="opBF" class="battle-field right box2" onmousedown="return false">Opponent's BF</div>
         <div id="bigDisplay" class="box2 big-display"></div>
     </div>
 
