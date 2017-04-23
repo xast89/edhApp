@@ -131,8 +131,8 @@ function getTopOffset(ev) {
     return topResult;
 }
 
-function moveCardFromSourceToDestination(sourceDiv, destinationDiv, card_id) {
-    if (sourceDiv == "myHand" && destinationDiv != "myHand") {
+function moveCardFromSourceToDestination(sourceDiv, destinationDiv, card_id, tagName) {
+    if (sourceDiv == "myHand" && destinationDiv != "myHand" && tagName != 'IMG') {
         $('#myHand #' + card_id).remove();
 
         var step;
@@ -248,7 +248,7 @@ function drop(ev) {
     }
 
 
-    moveCardFromSourceToDestination(card_sourceDiv, ev.target.id, card_id);
+    moveCardFromSourceToDestination(card_sourceDiv, ev.target.id, card_id, ev.target.tagName);
 }
 
 function bigDisplay(src) {
