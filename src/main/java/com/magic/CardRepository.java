@@ -205,7 +205,7 @@ public class CardRepository
         xenagosDeckTemp.add(createCard("Pathbreaker Ibex", "pathbreakerIbex", "cards/green/creature/pathbreakerIbex.jpg"));
         xenagosDeckTemp.add(createCard("Reclamation Sage", "reclamationSage", "cards/green/creature/reclamationSage.jpg"));
         xenagosDeckTemp.add(createCard("Dragonlord Atarka", "dragonlordAtarka", "cards/multi/creature/dragonlordAtarka.jpg"));
-        xenagosDeckTemp.add(createCard("Ruric Thar, the Unbowed", "ruricThartheUnbowed", "cards/multi/creature/ruricThartheUnbowed.jpg"));
+        xenagosDeckTemp.add(createCard("Ruric Thar, the Unbowed", "ruricThartheUnbowed", "cards/multi/creature/ruricTharTheUnbowed.jpg"));
         xenagosDeckTemp.add(createCard("Zendikar Incarnate", "zendikarIncarnate", "cards/multi/creature/zendikarIncarnate.jpg"));
         xenagosDeckTemp.add(createCard("Mina and Denn, Wildborn", "minaAndDennWildborn", "cards/multi/creature/minaAndDennWildborn.jpg"));
         xenagosDeckTemp.add(createCard("Radha, Heir to Keld", "radhaHeirToKeld", "cards/multi/creature/radhaHeirToKeld.jpg"));
