@@ -258,7 +258,6 @@ function drop(ev) {
             ;
     }
     if (ev.target.id == 'myHand' && card_sourceDiv != "myHand") {
-        //TODO: wyrzucic to na zewnatrz ifa?
         if ($('#myBF #' + card_id).length) {
             $('#myBF #' + card_id).remove();
         }
@@ -280,7 +279,6 @@ function drop(ev) {
 
     }
     if (ev.target.id != 'myHand' && ev.target.id != 'commandZone' && ev.target.id != 'myBF' && card_sourceDiv != "myHand") {
-        //TODO: wyrzucic to na zewnatrz ifa?
         stompClient.send("/app/removeCard", {},
             JSON.stringify(
                 {
