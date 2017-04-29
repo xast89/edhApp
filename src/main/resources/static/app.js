@@ -145,6 +145,9 @@ function moveCardFromSourceToDestination(sourceDiv, evTarget, card_id) {
                 else if (evTarget.id = 'myBF') {
                     battleFieldList.push(card[0]);
                 }
+                else if (evTarget.id = 'graveyard') {
+                    graveyardList.push(card[0]);
+                }
             }
         }
     }
@@ -161,7 +164,7 @@ function moveCardFromSourceToDestination(sourceDiv, evTarget, card_id) {
     //    }
     //}
 
-     else if (sourceDiv == "myBF" && evTarget.id == 'deck' && evTarget.tagName != 'IMG') {
+    else if (sourceDiv == "myBF" && (evTarget.id == 'deck' || evTarget.id == 'graveyard') && evTarget.tagName != 'IMG') {
         $('#myBF #' + card_id).remove();
 
         var step;
@@ -170,6 +173,9 @@ function moveCardFromSourceToDestination(sourceDiv, evTarget, card_id) {
                 var card = battleFieldList.splice(step, 1);
                 if (evTarget.id == 'deck') {
                     deckList.push(card[0]);
+                }
+                else {
+                    graveyardList.push(card[0]);
                 }
             }
         }
@@ -203,6 +209,10 @@ function drag(ev) {
 }
 
 function drop(ev) {
+    if(ev.target.tagName != 'DIV')
+    {
+        return;
+    }
     ev.preventDefault();
     var card_id = ev.dataTransfer.getData("card");
     var card_src = ev.dataTransfer.getData("src");
@@ -227,22 +237,25 @@ function drop(ev) {
         if ($('#myBF #' + card_id).length) {
             $('#myBF #' + card_id).remove();
         }
-        $('<img id="' + card_id + '" ' +
-            'src="' + card_src + '" ' +
-            'onclick="bigDisplay(\'' + card_src + '\')" ' +
-            'ondblclick ="tap(\'' + card_id + '\')"' +
-            'draggable="true" ' +
-            'ondragstart="drag(event)"/>')
-        //.on('mouseover', bigDisplay(card_src))
-            .appendTo('#myBF')
-            .css({
-                "position": "absolute", "left": xPosition,
-                "top": yPosition
-            })
-            //.on('mouseover', bigDisplay(card_src) )
-            //.on('mouseout', removeBigDisplay() )
-            //.on('onmouseout', removeBigDisplay() )
-        ;
+        if ($('#commandZone #' + card_id).length) {
+            $('#commandZone #' + card_id).remove();
+        }
+            $('<img id="' + card_id + '" ' +
+                'src="' + card_src + '" ' +
+                'onclick="bigDisplay(\'' + card_src + '\')" ' +
+                'ondblclick ="tap(\'' + card_id + '\')"' +
+                'draggable="true" ' +
+                'ondragstart="drag(event)"/>')
+            //.on('mouseover', bigDisplay(card_src))
+                .appendTo('#myBF')
+                .css({
+                    "position": "absolute", "left": xPosition,
+                    "top": yPosition
+                })
+                //.on('mouseover', bigDisplay(card_src) )
+                //.on('mouseout', removeBigDisplay() )
+                //.on('onmouseout', removeBigDisplay() )
+            ;
     }
     if (ev.target.id == 'myHand' && card_sourceDiv != "myHand") {
         //TODO: wyrzucic to na zewnatrz ifa?
@@ -264,6 +277,21 @@ function drop(ev) {
                     'sourceDiv': card_sourceDiv,
                     'destinationDiv': ev.target.id
                 }));
+
+    }
+    if (ev.target.id != 'myHand' && ev.target.id != 'commandZone' && ev.target.id != 'myBF' && card_sourceDiv != "myHand") {
+        //TODO: wyrzucic to na zewnatrz ifa?
+        stompClient.send("/app/removeCard", {},
+            JSON.stringify(
+                {
+                    'id': $('#' + card_id).attr('id'),
+                    'sourceDiv': card_sourceDiv,
+                    'destinationDiv': ev.target.id
+                }));
+
+        if ($('#myBF #' + card_id).length) {
+            $('#myBF #' + card_id).remove();
+        }
 
     }
 
@@ -332,24 +360,27 @@ function tapCard(card) {
     }
 }
 
+
+////////////////////////////////////////////////////////////////////
+
 function showDeck() {
     $('#deck p select').remove();
-    $('#deck p').append('<select id="card">');
-    deckList.reverse().forEach(function (card) {
+    $('#deck p').append('<select id="deckCard">');
+    deckList.forEach(function (card) {
         $('#deck p select').append('<option>' + card.name + '</option>')
     });
 }
 
-function ontoYourHand() {
+function fromDeckOntoYourHand() {
 
-    var selectedCard = $("#card option:selected").text();
+    var selectedCard = $("#deckCard option:selected").text();
 
     var step;
     for (step = 0; step < deckList.length; step++) {
         if (deckList[step].name == selectedCard) {
             var card2 = deckList.splice(step, 1);
             var card = card2[0];
-            handList.push(card  );
+            handList.push(card);
 
 
             $('<img id="' + card.id + '" ' +
@@ -361,7 +392,63 @@ function ontoYourHand() {
         }
     }
     $('#deck p select').remove();
+    shuffleDeck();
+}
 
+function shuffleDeck()
+{
+    shuffle(deckList);
+}
+
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
+
+function showGraveyard() {
+    $('#graveyard p select').remove();
+    $('#graveyard p').append('<select id="graveyardCard">');
+    graveyardList.forEach(function (card) {
+        $('#graveyard p select').append('<option>' + card.name + '</option>')
+    });
+}
+
+function fromGraveyardOntoYourHand() {
+
+    var selectedCard = $("#graveyardCard option:selected").text();
+
+    var step;
+    for (step = 0; step < graveyardList.length; step++) {
+        if (graveyardList[step].name == selectedCard) {
+            var card2 = graveyardList.splice(step, 1);
+            var card = card2[0];
+            handList.push(card);
+
+
+            $('<img id="' + card.id + '" ' +
+                'src="' + card.src + '" ' +
+                'draggable="true" ' +
+                'ondragstart="drag(event)" ' +
+                'onclick="bigDisplay(\'' + card.src + '\')"/>')
+                .appendTo('#myHand');
+        }
+    }
+    $('#graveyard p select').remove();
 }
 
 $(function () {

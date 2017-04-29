@@ -136,7 +136,7 @@ public class CardRepository
         dereviDeckTemp.add(createCard("Rafiq of the Many", "rafiqOfTheMany", "cards/multi/creature/rafiqOfTheMany.jpg"));
         dereviDeckTemp.add(createCard("Geist of the Archives", "geistOfTheArchives", "cards/blue/creature/geistOfTheArchives.jpg"));
         dereviDeckTemp.add(createCard("Hero's Blade", "herosBlade", "cards/colorless/artifact/herosBlade.jpg"));
-        dereviDeckTemp.add(createCard("Derevi, Empyrial Tactician", "c13_186", "cards/multi/creature/dereviEmpyrialTactician.jpg"));
+        dereviDeckTemp.add(createCard("Derevi, Empyrial Tactician", "dereviEmpyrialTactician", "cards/multi/creature/dereviEmpyrialTactician.jpg"));
 
         return dereviDeckTemp;
 
