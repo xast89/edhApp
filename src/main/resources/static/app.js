@@ -207,10 +207,9 @@ function drag(ev) {
     ev.dataTransfer.setData("offsetLeft", ev.clientX - ev.target.getBoundingClientRect().left);
     ev.dataTransfer.setData("offsetTop", ev.clientY - ev.target.getBoundingClientRect().top);
 }
-
+//TODO: ZDEBUGOWAC CZEMU SIE WYWALA PRZERZUCANIE KART Z REKI DO DECKA/GRAVE I Z COMMANDZONE
 function drop(ev) {
-    if(ev.target.tagName != 'DIV')
-    {
+    if (ev.target.tagName != 'DIV') {
         return;
     }
     ev.preventDefault();
@@ -240,22 +239,22 @@ function drop(ev) {
         if ($('#commandZone #' + card_id).length) {
             $('#commandZone #' + card_id).remove();
         }
-            $('<img id="' + card_id + '" ' +
-                'src="' + card_src + '" ' +
-                'onclick="bigDisplay(\'' + card_src + '\')" ' +
-                'ondblclick ="tap(\'' + card_id + '\')"' +
-                'draggable="true" ' +
-                'ondragstart="drag(event)"/>')
-            //.on('mouseover', bigDisplay(card_src))
-                .appendTo('#myBF')
-                .css({
-                    "position": "absolute", "left": xPosition,
-                    "top": yPosition
-                })
-                //.on('mouseover', bigDisplay(card_src) )
-                //.on('mouseout', removeBigDisplay() )
-                //.on('onmouseout', removeBigDisplay() )
-            ;
+        $('<img id="' + card_id + '" ' +
+            'src="' + card_src + '" ' +
+            'onclick="bigDisplay(\'' + card_src + '\')" ' +
+            'ondblclick ="tap(\'' + card_id + '\')"' +
+            'draggable="true" ' +
+            'ondragstart="drag(event)"/>')
+        //.on('mouseover', bigDisplay(card_src))
+            .appendTo('#myBF')
+            .css({
+                "position": "absolute", "left": xPosition,
+                "top": yPosition
+            })
+            //.on('mouseover', bigDisplay(card_src) )
+            //.on('mouseout', removeBigDisplay() )
+            //.on('onmouseout', removeBigDisplay() )
+        ;
     }
     if (ev.target.id == 'myHand' && card_sourceDiv != "myHand") {
         if ($('#myBF #' + card_id).length) {
@@ -291,6 +290,25 @@ function drop(ev) {
             $('#myBF #' + card_id).remove();
         }
 
+    }
+    if (ev.target.id == 'commandZone') {
+        if ($('#'+card_sourceDiv +' #' + card_id).length) {
+            $('#'+card_sourceDiv +' #' + card_id).remove();
+        }
+        $('<img id="' + card_id + '" ' +
+            'src="' + card_src + '" ' +
+            'draggable="true" ' +
+            'ondragstart="drag(event)" ' +
+            'onclick="bigDisplay(\'' + card_src + '\')"/>')
+            .appendTo('#commandZone');
+
+        stompClient.send("/app/removeCard", {},
+            JSON.stringify(
+                {
+                    'id': $('#' + card_id).attr('id'),
+                    'sourceDiv': card_sourceDiv,
+                    'destinationDiv': ev.target.id
+                }));
     }
 
     moveCardFromSourceToDestination(card_sourceDiv, ev.target, card_id);
@@ -393,8 +411,7 @@ function fromDeckOntoYourHand() {
     shuffleDeck();
 }
 
-function shuffleDeck()
-{
+function shuffleDeck() {
     shuffle(deckList);
 }
 
