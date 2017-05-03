@@ -8,5 +8,5 @@ import java.util.List;
  */
 public class UserName {
 
-    public static List<String> userName = Arrays.asList("Pierwszy", "Drugi");
+    public static List<String> userName = Arrays.asList("Armored hamster", "Warlike ferret");
 }
