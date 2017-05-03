@@ -39,6 +39,10 @@
                 </select>
             </form>
         </div>
+        <div class="box2">
+            <input type="text" id="name" placeholder="Type your message...">
+            <button id="send" type="submit">chat!</button>
+        </div>
     </div>
 
     <div class="inline-next space"></div>
@@ -64,14 +68,28 @@
     <div class="inline-next space"></div>
 
     <div class="inline-next">
-        <div id="myBF" class="battle-field left box2" ondrop="drop(event)" ondragover="allowDrop(event)">My BF</div>
-        <div id="opBF" class="battle-field right box2" onmousedown="return false">Opponent's BF</div>
+        <div id="myBF" class="battle-field left box2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        <div id="opBF" class="battle-field right box2" onmousedown="return false"></div>
         <div id="bigDisplay" class="box2 big-display"></div>
     </div>
 
     <div class="inline-next space"></div>
 
-    <div id="myHand" class="inline-next battle-field bottom" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="inline-next">
+        <div id="myHand" class=" battle-field bottom box2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        <div class="box2 history chat">history</div>
+        <div class=" battle-field chat box2">
+            <table id="conversation" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Chat</th>
+                </tr>
+                </thead>
+                <tbody id="chat">
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </div>
 </body>

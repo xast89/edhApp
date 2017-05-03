@@ -49,8 +49,10 @@ function connect() {
             var card = JSON.parse(card.body);
             removeCard(card);
         });
+        stompClient.subscribe('/topic/greetings', function (greeting) {
+            showChat(JSON.parse(greeting.body).content);
     });
-}
+})}
 
 function disconnect() {
     if (stompClient != null) {
@@ -405,6 +407,9 @@ function fromDeckOntoYourHand() {
                 'ondragstart="drag(event)" ' +
                 'onclick="bigDisplay(\'' + card.src + '\')"/>')
                 .appendTo('#myHand');
+
+            // It is for basic land. Now Player takes one basic land, not all.
+            break;
         }
     }
     $('#deck p select').remove();
@@ -461,10 +466,22 @@ function fromGraveyardOntoYourHand() {
                 'ondragstart="drag(event)" ' +
                 'onclick="bigDisplay(\'' + card.src + '\')"/>')
                 .appendTo('#myHand');
+
+            // It is for basic land. Now Player takes one basic land, not all.
+            break;
         }
     }
     $('#graveyard p select').remove();
 }
+
+function sendName() {
+    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
+}
+
+function showChat(message) {
+    $("#chat").append("<tr><td>" + message + "</td></tr>");
+}
+
 
 $(function () {
     $("form").on('submit', function (e) {
@@ -481,6 +498,8 @@ $(function () {
     });
     $("#drawCard").click(function () {
         drawCard();
+    });
+    $( "#send" ).click(function() { sendName();
     });
 
 });
