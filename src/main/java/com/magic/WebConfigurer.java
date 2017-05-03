@@ -9,7 +9,8 @@ class WebConfigurer extends WebMvcConfigurerAdapter
 {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/cards/**").addResourceLocations("file:///C:/cards/");
+        registry.addResourceHandler("/cards/**").addResourceLocations("file:/dev/net/cards/");
+//        registry.addResourceHandler("/cards/**").addResourceLocations("file:///C:/cards/");
         super.addResourceHandlers(registry);
     }
 
