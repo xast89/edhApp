@@ -28,7 +28,7 @@
         <div class="box2">
             <form>
                 <button id="startGame" class="btn btn-default" type="submit" disabled="disabled">StartGame</button>
-                <button id="drawCard" class="btn btn-default" type="submit">drawCard</button>
+                <!--<button id="drawCard" class="btn btn-default" type="submit">drawCard</button>-->
             </form>
         </div>
         <div class="box2">
@@ -56,9 +56,9 @@
             <button onclick="shuffleDeck()">shuffle deck</button>
         </div>
         <div id="graveyard" class="cardPlace box2" ondrop="drop(event)" ondragover="allowDrop(event)">
-            <button onclick="showGraveyard()">Search your graveyard</button>
+            <button class="button" onclick="showGraveyard()">Search your graveyard</button>
             <p></p>
-            <button onclick="fromGraveyardOntoYourHand()">put card onto hand</button>
+            <button class="button" onclick="fromGraveyardOntoYourHand()">put card onto hand</button>
         </div>
         <div id="exile" class="cardPlace box2">
             <p>Exile</p>

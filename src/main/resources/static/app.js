@@ -382,6 +382,7 @@ function tapCard(card) {
 ////////////////////////////////////////////////////////////////////
 
 function showDeck() {
+    //$('#deck').append('<p>');
     $('#deck p select').remove();
     $('#deck p').append('<select id="deckCard">');
     deckList.forEach(function (card) {
