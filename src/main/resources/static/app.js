@@ -11,7 +11,7 @@ map['graveyard'] = graveyardList;
 map['myBF'] = battleFieldList;
 map['myHand'] = handList;
 
-var distanceFromTop = 220;
+var distanceFromTop = 250;
 
 
 function setConnected(connected) {

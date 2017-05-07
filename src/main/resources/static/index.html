@@ -50,13 +50,14 @@
     <div class="inline-next">
         <div id="commandZone" class="commanderCardPlace box2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
         <div id="deck" class="cardPlace box2" ondrop="drop(event)" ondragover="allowDrop(event)">
-            <button onclick="showDeck()">Search your deck</button>
+            <button id="drawCard" class="button button-functional" type="submit">draw a card</button>
+            <button class="button" onclick="showDeck()">search your deck</button>
             <p></p>
-            <button onclick="fromDeckOntoYourHand()">put card onto hand</button>
-            <button onclick="shuffleDeck()">shuffle deck</button>
+            <button class="button" onclick="fromDeckOntoYourHand()">put card onto hand</button>
+            <button class="button" onclick="shuffleDeck()">shuffle deck</button>
         </div>
         <div id="graveyard" class="cardPlace box2" ondrop="drop(event)" ondragover="allowDrop(event)">
-            <button class="button" onclick="showGraveyard()">Search your graveyard</button>
+            <button class="button" onclick="showGraveyard()">search your graveyard</button>
             <p></p>
             <button class="button" onclick="fromGraveyardOntoYourHand()">put card onto hand</button>
         </div>
