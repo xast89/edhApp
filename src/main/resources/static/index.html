@@ -43,6 +43,9 @@
             <input type="text" id="name" placeholder="Type your message...">
             <button id="send" type="submit">chat!</button>
         </div>
+        <div class="box2">
+            <button id="opponentsInfo" type="submit">het opponent's info</button>
+        </div>
     </div>
 
     <div class="inline-next space"></div>
@@ -64,34 +67,39 @@
         <div id="exile" class="cardPlace box2">
             <p>Exile</p>
         </div>
-    </div>
-
-    <div class="inline-next space"></div>
-
-    <div class="inline-next">
-        <div id="myBF" class="battle-field left box2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-        <div id="opBF" class="battle-field right box2" onmousedown="return false"></div>
-        <div id="bigDisplay" class="box2 big-display"></div>
-    </div>
-
-    <div class="inline-next space"></div>
-
-    <div class="inline-next">
-        <div id="myHand" class=" battle-field bottom box2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-        <div class="box2 history chat">history</div>
-        <div class=" battle-field chat box2">
-            <table id="conversation" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Chat</th>
-                </tr>
-                </thead>
-                <tbody id="chat">
-                </tbody>
-            </table>
+        <div id="opponents_commandZone" class="commanderCardPlace box2"></div>
+        <div id="opponents_deck" class="cardPlace box2"></div>
+        <div id="opponents_graveyard" class="cardPlace box2"></div>
+        <div id="opponents_exile" class="cardPlace box2">
         </div>
-    </div>
 
-</div>
+        <div class="inline-next space"></div>
+
+        <div class="inline-next">
+            <div id="myBF" class="battle-field left box2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div id="opBF" class="battle-field right box2" onmousedown="return false"></div>
+            <div id="bigDisplay" class="box2 big-display"></div>
+        </div>
+
+        <div class="inline-next space"></div>
+
+        <div class="inline-next">
+            <div id="myHand" class=" battle-field bottom box2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="box2 history chat">history</div>
+            <div class=" battle-field chat box2">
+                <table id="conversation" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Chat</th>
+                    </tr>
+                    </thead>
+                    <tbody id="chat">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    </div>
 </body>
 </html>

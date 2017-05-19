@@ -5,13 +5,15 @@ var handList = [];
 var battleFieldList = [];
 var graveyardList = [];
 var map = {}; // or var map = {};
+
+var opponentsDeckList = [];
 map['commandZone'] = commnadZoneList;
 map['deck'] = deckList;
 map['graveyard'] = graveyardList;
 map['myBF'] = battleFieldList;
 map['myHand'] = handList;
 
-var distanceFromTop = 250;
+var distanceFromTop = 235;
 
 
 function setConnected(connected) {
@@ -45,14 +47,21 @@ function connect() {
             var card = JSON.parse(card.body);
             tapCard(card);
         });
+        stompClient.subscribe('/user/queue/getInfo', function () {
+            shareInfo();
+        });
+        stompClient.subscribe('/user/queue/shareInfo', function (opponentsDeck) {
+            opponentsDeckList = JSON.parse(opponentsDeck.body);
+        });
         stompClient.subscribe('/user/queue/removeCard', function (card) {
             var card = JSON.parse(card.body);
             removeCard(card);
         });
         stompClient.subscribe('/topic/greetings', function (greeting) {
             showChat(JSON.parse(greeting.body).content);
-    });
-})}
+        });
+    })
+}
 
 function disconnect() {
     if (stompClient != null) {
@@ -294,8 +303,8 @@ function drop(ev) {
 
     }
     if (ev.target.id == 'commandZone') {
-        if ($('#'+card_sourceDiv +' #' + card_id).length) {
-            $('#'+card_sourceDiv +' #' + card_id).remove();
+        if ($('#' + card_sourceDiv + ' #' + card_id).length) {
+            $('#' + card_sourceDiv + ' #' + card_id).remove();
         }
         $('<img id="' + card_id + '" ' +
             'src="' + card_src + '" ' +
@@ -484,6 +493,14 @@ function showChat(message) {
 }
 
 
+function getInfo() {
+    stompClient.send("/app/getOpponentsInfo", {}, {});
+}
+
+function shareInfo() {
+    stompClient.send("/app/shareOpponentsInfo", {}, JSON.stringify(deckList));
+}
+
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
@@ -500,7 +517,11 @@ $(function () {
     $("#drawCard").click(function () {
         drawCard();
     });
-    $( "#send" ).click(function() { sendName();
+    $("#send").click(function () {
+        sendName();
+    });
+    $("#opponentsInfo").click(function () {
+        getInfo();
     });
 
 });

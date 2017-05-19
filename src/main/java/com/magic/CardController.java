@@ -110,7 +110,6 @@ public class CardController
     @MessageMapping("/tapCard")
     public void tapCard(@Payload Card message, SimpMessageHeaderAccessor headerAccessor)
     {
-
         for (Map.Entry<String, String> stringStringEntry : webSocketConfig.userSessionIdMap.entrySet())
         {
             if (!stringStringEntry.getValue().equals(headerAccessor.getSessionId()))
@@ -120,6 +119,38 @@ public class CardController
                 ha.setLeaveMutable(true);
                 ha.setSessionId(stringStringEntry.getValue());
                 messagingTemplate.convertAndSendToUser(stringStringEntry.getValue(), "/queue/tapCard", message, ha.getMessageHeaders());
+            }
+        }
+    }
+
+    @MessageMapping("/getOpponentsInfo")
+    public void getOpponentsInformation(SimpMessageHeaderAccessor headerAccessor)
+    {
+        for (Map.Entry<String, String> stringStringEntry : webSocketConfig.userSessionIdMap.entrySet())
+        {
+            if (!stringStringEntry.getValue().equals(headerAccessor.getSessionId()))
+            {
+                SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor
+                        .create(SimpMessageType.MESSAGE);
+                ha.setLeaveMutable(true);
+                ha.setSessionId(stringStringEntry.getValue());
+                messagingTemplate.convertAndSendToUser(stringStringEntry.getValue(), "/queue/getInfo", new Object(), ha.getMessageHeaders());
+            }
+        }
+    }
+
+    @MessageMapping("/shareOpponentsInfo")
+    public void shareOpponentsInformation(@Payload List<String> deckList,  SimpMessageHeaderAccessor headerAccessor)
+    {
+        for (Map.Entry<String, String> stringStringEntry : webSocketConfig.userSessionIdMap.entrySet())
+        {
+            if (!stringStringEntry.getValue().equals(headerAccessor.getSessionId()))
+            {
+                SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor
+                        .create(SimpMessageType.MESSAGE);
+                ha.setLeaveMutable(true);
+                ha.setSessionId(stringStringEntry.getValue());
+                messagingTemplate.convertAndSendToUser(stringStringEntry.getValue(), "/queue/shareInfo", deckList, ha.getMessageHeaders());
             }
         }
     }
