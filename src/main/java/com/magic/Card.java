@@ -1,9 +1,11 @@
 package com.magic;
 
+import java.io.Serializable;
+
 /**
  * Created by pawel on 05.03.17.
  */
-public class Card
+public class Card implements Serializable
 {
 
     private String name;

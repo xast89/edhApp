@@ -39,6 +39,10 @@ function connect() {
             deckList = JSON.parse(cardList.body);
             startGame_onPage();
         });
+        stompClient.subscribe('/user/queue/loadHand', function (hand) {
+            handList = JSON.parse(hand.body);
+            loadHand_onPage();
+        });
         stompClient.subscribe('/user/queue/shareOpponentCard', function (card) {
             var card = JSON.parse(card.body);
             shareOpponentCard(card);
@@ -62,7 +66,6 @@ function connect() {
         });
     })
 }
-
 function disconnect() {
     if (stompClient != null) {
         stompClient.disconnect();
@@ -81,11 +84,11 @@ function drawCard() {
 function setStartButton(value) {
     $("#startGame").prop("disabled", value);
 }
+
 function startGame() {
     setStartButton(true);
     stompClient.send("/app/startGame", {}, JSON.stringify({'commander': $("#commander option:selected").text()}));
 }
-
 function personal_onPage(message) {
     $("#myHand").append('<div class="col-md-2 card" >' + message + '</div>');
 }
@@ -98,6 +101,7 @@ function drawCardOnDiv(card, div) {
         'onclick="bigDisplay(\'' + card.src + '\')"/>')
         .appendTo(div);
 }
+
 function startGame_onPage() {
 
     var commander = deckList.pop();
@@ -119,7 +123,6 @@ function startGame_onPage() {
         drawCardOnDiv(card, "#myHand");
     }
 }
-
 function allowDrop(ev) {
     ev.preventDefault();
 }
@@ -218,6 +221,7 @@ function drag(ev) {
     ev.dataTransfer.setData("offsetLeft", ev.clientX - ev.target.getBoundingClientRect().left);
     ev.dataTransfer.setData("offsetTop", ev.clientY - ev.target.getBoundingClientRect().top);
 }
+
 //TODO: ZDEBUGOWAC CZEMU SIE WYWALA PRZERZUCANIE KART Z REKI DO DECKA/GRAVE I Z COMMANDZONE
 function drop(ev) {
     if (ev.target.tagName != 'DIV') {
@@ -324,13 +328,11 @@ function drop(ev) {
 
     moveCardFromSourceToDestination(card_sourceDiv, ev.target, card_id);
 }
-
 function bigDisplay(src) {
     $('div#bigDisplay > img').remove();
     $('<img id="bla" class="big-display" src="' + src + '"  />').appendTo("#bigDisplay");
 
 }
-
 
 function tap(id) {
 
@@ -355,6 +357,7 @@ function tap(id) {
     }
 
 }
+
 
 function removeBigDisplay() {
     $('div#bigDisplay > img').remove();
@@ -387,8 +390,8 @@ function tapCard(card) {
     }
 }
 
-
 ////////////////////////////////////////////////////////////////////
+
 
 function showDeck() {
     //$('#deck').append('<p>');
@@ -449,7 +452,6 @@ function shuffle(array) {
     return array;
 }
 
-
 function showGraveyard() {
     $('#graveyard p select').remove();
     $('#graveyard p').append('<select id="graveyardCard">');
@@ -457,6 +459,7 @@ function showGraveyard() {
         $('#graveyard p select').append('<option>' + card.name + '</option>')
     });
 }
+
 
 function fromGraveyardOntoYourHand() {
 
@@ -492,13 +495,32 @@ function showChat(message) {
     $("#chat").append("<tr><td>" + message + "</td></tr>");
 }
 
-
 function getInfo() {
     stompClient.send("/app/getOpponentsInfo", {}, {});
 }
 
+
 function shareInfo() {
     stompClient.send("/app/shareOpponentsInfo", {}, JSON.stringify(deckList));
+}
+
+function saveHand() {
+    stompClient.send("/app/saveHand", {}, JSON.stringify(handList));
+}
+
+function loadHand() {
+    stompClient.send("/app/loadHand", {}, JSON.stringify(handList));
+}
+
+function loadHand_onPage() {
+
+    var step;
+    for (step = 1; step < 8; step++) {
+        var card = handList.pop();
+
+        drawCardOnDiv(card, "#myHand");
+    }
+
 }
 
 $(function () {
@@ -522,6 +544,12 @@ $(function () {
     });
     $("#opponentsInfo").click(function () {
         getInfo();
+    });
+    $("#saveHand").click(function () {
+        saveHand();
+    });
+    $("#loadHand").click(function () {
+        loadHand();
     });
 
 });
